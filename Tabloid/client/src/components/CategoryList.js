@@ -6,12 +6,15 @@ import { Button } from "reactstrap";
 export const CategoryList = () => {
 
     const { categories, getAllCategories, addCategory } = useContext(CategoryContext)
-    const { categoryInput, setCategoryInput } = useState(false)
+    const [categoryInput, setCategoryInput] = useState(false)
     const name = useRef()
 
+    // useEffect(() => {
+    //     getAllCategories();
+    // }, []);
     useEffect(() => {
         getAllCategories();
-    }, []);
+    }, [categories]);
 
     const constructNewCategory = () => {
         addCategory({
