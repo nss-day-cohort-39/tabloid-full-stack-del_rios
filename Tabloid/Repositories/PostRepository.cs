@@ -45,6 +45,7 @@ namespace Tabloid.Repositories
         {
             return _context.Post
                            .Include(p => p.UserProfile)
+                           .Where(p => p.UserProfileId == id)
                            .Where(p => p.IsApproved == true)
                            .Where(p => p.PublishDateTime <= DateTime.Now)
                            .FirstOrDefault(p => p.Id == id);

@@ -76,7 +76,7 @@ getToken().then((token)=>
 
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, addPost, searchPosts, getPost, getUserPost }}>
+    <PostContext.Provider value={{ posts, getAllPosts, addPost, getPost, getUserPost }}>
       {props.children}
     </PostContext.Provider>
   );
