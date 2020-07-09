@@ -1,14 +1,20 @@
 import React from "react";
-import { Card, CardBody } from "reactstrap";
-
+import { Card, CardBody, Button } from "reactstrap";
+import "../css/Category.css"
 
 
 export const Category = ({ category }) => {
 
     return (
-        <Card>
+        <Card className="categoryCard">
             <CardBody>
-                <h3>{category.name}</h3>
+                <div className="categoryCardBody">
+                    <h4>{category.name}</h4>
+                    <div>
+                        <Button color="primary">Edit</Button>
+                        <Button color="danger">Delete</Button>
+                    </div>
+                </div>
             </CardBody>
         </Card>
 

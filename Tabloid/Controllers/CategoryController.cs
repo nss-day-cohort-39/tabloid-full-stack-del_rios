@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,16 +12,18 @@ using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class CategoryController : ControllerBase
     {
 
         private readonly CategoryRepository _categoryRepository;
+        private readonly UserProfileRepository _userProfileRepository;
         public CategoryController(ApplicationDbContext context)
         {
             _categoryRepository = new CategoryRepository(context);
+            _userProfileRepository = new UserProfileRepository(context);
         }
 
         [HttpPost]
@@ -62,7 +65,10 @@ namespace Tabloid.Controllers
             }
             return Ok(category);
         }
-
-
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
     }
 }
