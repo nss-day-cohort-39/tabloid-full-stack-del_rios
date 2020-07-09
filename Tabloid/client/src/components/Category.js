@@ -27,15 +27,15 @@ export const Category = ({ category }) => {
             <CardBody>
                 <div className="categoryCardBody">
                     <h4>{category.name}</h4>
-                    <div>
+                    <div className="categoryButtonContainer">
                         {/* This is the edit button and Modal */}
                         <Button color="primary" onClick={toggleEdit}>Edit</Button>
 
                         <Modal isOpen={editModal} toggle={toggleEdit}>
                             <ModalHeader toggle={toggleEdit}>
-                                {category.name}
+                                Edit {category.name}
                             </ModalHeader>
-                            <ModalBody className="categoryModalBody">
+                            <ModalBody >
                                 <div className="form-group">
                                     <input
                                         type="text"
@@ -46,29 +46,31 @@ export const Category = ({ category }) => {
                                         className="form-control"
                                         defaultValue={category.name}
                                     />
-                                    <button type="submit"
-                                        onClick={
-                                            evt => {
-                                                evt.preventDefault() // Prevent browser from submitting the form
-                                                toggleEdit()
+                                    <div className="categoryModalBody">
+                                        <button type="submit"
+                                            onClick={
+                                                evt => {
+                                                    evt.preventDefault() // Prevent browser from submitting the form
+                                                    toggleEdit()
+                                                }
                                             }
-                                        }
-                                        className="btn btn-primary">
-                                        Cancel
+                                            className="btn btn-secondary">
+                                            Cancel
             </button>
-                                    <button type="submit"
-                                        onClick={
-                                            evt => {
-                                                evt.preventDefault() // Prevent browser from submitting the form
+                                        <button type="submit"
+                                            onClick={
+                                                evt => {
+                                                    evt.preventDefault() // Prevent browser from submitting the form
 
-                                                catUpdate()
+                                                    catUpdate()
 
 
+                                                }
                                             }
-                                        }
-                                        className="btn btn-primary">
-                                        Save Changes
+                                            className="btn btn-primary">
+                                            Save Changes
             </button>
+                                    </div>
                                 </div>
                             </ModalBody>
                         </Modal>

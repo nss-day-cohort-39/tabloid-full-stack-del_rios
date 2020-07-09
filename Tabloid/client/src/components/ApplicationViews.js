@@ -25,7 +25,7 @@ export default function ApplicationViews() {
         </Route>
 
         <Route path="/categories">
-          <CategoryList />
+          {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
         </Route>
 
       </Switch>
