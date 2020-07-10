@@ -1,0 +1,19 @@
+.categoryHeader {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.categoryCard {
+    margin: .5rem 3rem;
+}
+
+.categoryCardBody {
+    display: flex;
+    justify-content: space-between;
+}
+
+.categoryModalBody{
+    display: flex;
+    justify-content: space-between;
+}
