@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Tag } from "./tag"
-import { TagContext } from "../../providers/tagProvider"
+import { Tag } from "./Tag"
+import { TagContext } from "../../providers/TagProvider"
 import { Button } from "reactstrap";
 
-export const tagList = () => {
+export const TagList = () => {
 
     const { tags, getAllTags, addTag } = useContext(TagContext)
     const [tagInput, setTagInput] = useState(false)
@@ -16,7 +16,7 @@ export const tagList = () => {
 
     const constructNewTag = () => {
         if (name.current.value !== "") {
-            addtag({
+            addTag({
                 name: name.current.value,
             })
         }

@@ -60,7 +60,7 @@ export const TagProvider = (props) => {
                 }
                 throw new Error("Failed to delete tag.")
             })
-        );
+        ).then(getAllTags);;
     };
 
     const getTagById = (id) => {

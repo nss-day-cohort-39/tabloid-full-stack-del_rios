@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { Card, CardBody, Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { TagContext } from "../../providers/TagProvider";
+import "../../css/Tag.css"
 
 export const Tag = ({ tag }) => {
 
@@ -20,20 +21,16 @@ export const Tag = ({ tag }) => {
         }).then(toggleEdit)
     }
 
-    const deleteTag = (e) => {
-        e.preventDefault();
-
-        deleteTag(tag.id).then((p) => {
-            history.push("/");
-        });
+    const tagDelete = () => {
+        deleteTag(tag.id).then(toggle)
     };
 
     return (
-        <Card className="TagCard">
+        <Card className="tagCard">
             <CardBody>
-                <div className="TagCardBody">
+                <div className="tagCardBody">
                     <h4>{tag.name}</h4>
-                    <div className="TagButtonContainer">
+                    <div className="tagButtonContainer">
                         {/* This is the edit button and Modal */}
                         <Button color="primary" onClick={toggleEdit}>Edit</Button>
 
@@ -52,7 +49,7 @@ export const Tag = ({ tag }) => {
                                         className="form-control"
                                         defaultValue={tag.name}
                                     />
-                                    <div className="TagModalBody">
+                                    <div className="tagModalBody">
                                         <button type="submit"
                                             onClick={
                                                 evt => {
@@ -85,7 +82,7 @@ export const Tag = ({ tag }) => {
                             <ModalHeader toggle={toggle}>
                                 Delete {tag.name}?
                 </ModalHeader>
-                            <ModalBody className="TagModalBody">
+                            <ModalBody className="tagModalBody">
                                 <button type="submit"
                                     onClick={
                                         evt => {

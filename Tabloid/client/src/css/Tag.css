@@ -1,0 +1,19 @@
+.tagHeader {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.tagCard {
+    margin: .5rem 3rem;
+}
+
+.tagCardBody {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tagModalBody{
+    display: flex;
+    justify-content: space-between;
+}
