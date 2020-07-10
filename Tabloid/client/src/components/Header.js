@@ -17,7 +17,7 @@ export default function Header() {
   const toggle = () => setIsOpen(!isOpen);
   let userProfileId = 0;
 
-  if (isLoggedIn == true) {
+  if (isLoggedIn === true) {
     userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   }
 
@@ -28,14 +28,17 @@ export default function Header() {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            { /* When isLoggedIn === true, we will render the Home link */ }
+            { /* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn &&
-            <>
+              <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/">Home</NavLink>
+                  <NavLink tag={RRNavLink} to="/">Posts</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={RRNavLink} to={`/user/${userProfileId}`}>My Posts</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/addpost">New Posts</NavLink>
                 </NavItem>
               </>
             }

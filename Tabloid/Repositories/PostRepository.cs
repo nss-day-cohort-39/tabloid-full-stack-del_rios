@@ -20,8 +20,7 @@ namespace Tabloid.Repositories
         {
             return _context.Post
                            .Include(p => p.UserProfile)
-                           .Where(p => p.IsApproved == true)
-                           .Where(p => p.PublishDateTime <= DateTime.Now)
+                           .Where(p => p.IsApproved == true && p.PublishDateTime <= DateTime.Now)
                            .OrderByDescending(p => p.PublishDateTime).ToList();
         }
 
@@ -36,8 +35,7 @@ namespace Tabloid.Repositories
         {
             return _context.Post
                            .Include(p => p.UserProfile)
-                           .Where(p => p.IsApproved == true)
-                           .Where(p => p.PublishDateTime <= DateTime.Now)
+                           .Where(p => p.IsApproved == true && p.PublishDateTime <= DateTime.Now)
                            .FirstOrDefault(p => p.Id == id);
         }
 
@@ -45,9 +43,7 @@ namespace Tabloid.Repositories
         {
             return _context.Post
                            .Include(p => p.UserProfile)
-                           .Where(p => p.UserProfileId == id)
-                           .Where(p => p.IsApproved == true)
-                           .Where(p => p.PublishDateTime <= DateTime.Now)
+                           .Where(p => p.IsApproved == true && p.PublishDateTime <= DateTime.Now)
                            .FirstOrDefault(p => p.Id == id);
         }
 

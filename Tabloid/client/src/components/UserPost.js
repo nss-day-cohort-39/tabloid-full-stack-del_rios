@@ -8,7 +8,7 @@ const UserPost = () => {
   const { posts, getUserPost } = useContext(PostContext);
   const { id } = useParams();
 
- useEffect(() => {
+  useEffect(() => {
     getUserPost(id);
   }, []);
 
@@ -17,7 +17,7 @@ const UserPost = () => {
       <div className="postList">
         <div className="cards-column">
           {posts.map((post) => (
-            <Post key={post.id} post={post}/>
+            <Post key={post.id} post={post} />
           ))}
         </div>
       </div>

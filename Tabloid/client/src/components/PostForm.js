@@ -13,7 +13,8 @@ import { useHistory } from "react-router-dom";
 
 export const PostForm = () => {
     const { addPost } = useContext(PostContext);
-    const [formState, setformState] = useState({});
+    const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
+    const [formState, setformState] = useState({ userProfileId: +userProfileId });
 
     const handleUserInput = (e) => {
         const updatedState = { ...formState }
@@ -27,13 +28,11 @@ export const PostForm = () => {
     const submit = (e) => {
         e.preventDefault();
 
-        formState.userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
-        formState.userProfileId = +formState.userProfileId;
         formState.isApproved = true;
         formState.categoryId = 1;
 
         addPost(formState).then((p) => {
-            history.push(`/post/:${p.id}`);
+            history.push(`/post/${p.id}`);
         });
     };
 
@@ -49,7 +48,6 @@ export const PostForm = () => {
                                     id="imageLocation"
                                     type="url"
                                     onChange={handleUserInput}
-                                    required
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -70,7 +68,6 @@ export const PostForm = () => {
                                     id="publishDateTime"
                                     type="date"
                                     onChange={handleUserInput}
-                                    required
                                 />
                             </FormGroup>
                             <Button color="info" type="submit">
