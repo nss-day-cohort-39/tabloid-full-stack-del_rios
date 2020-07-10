@@ -31,7 +31,7 @@ export const CategoryProvider = (props) => {
                 body: JSON.stringify(category)
             }).then(resp => {
                 if (resp.ok) {
-                    return resp.json();
+                    return resp.json().then(getAllCategories);
                 }
                 throw new Error("Unauthorized");
             }));
@@ -45,7 +45,7 @@ export const CategoryProvider = (props) => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(category)
-            }));
+            }).then(getAllCategories));
 
     const deleteCategory = (id) =>
         getToken().then((token) =>
@@ -56,7 +56,7 @@ export const CategoryProvider = (props) => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(id)
-            }));
+            }).then(getAllCategories));
 
     const getCategory = (id) => {
         getToken().then((token) =>
