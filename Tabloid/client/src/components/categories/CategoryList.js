@@ -18,6 +18,7 @@ export const CategoryList = () => {
         if (name.current.value !== "") {
             addCategory({
                 name: name.current.value,
+                active: true
             })
         }
         else {
