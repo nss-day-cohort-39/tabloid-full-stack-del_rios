@@ -70,9 +70,11 @@ export const PostForm = () => {
                                     onChange={handleUserInput}
                                 />
                             </FormGroup>
-                            <Button color="info" type="submit">
-                                SUBMIT POST
-                            </Button>
+                            <div className="buttonContainer">
+                                <Button color="info" type="submit">
+                                    SUBMIT POST
+                                </Button>
+                            </div>
                         </Form>
                     </CardBody>
                 </Card>

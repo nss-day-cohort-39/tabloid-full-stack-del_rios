@@ -1,15 +1,24 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Button, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader } from "reactstrap";
+import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { PostContext } from "../providers/PostProvider";
 import { useParams, useHistory } from "react-router-dom";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
-  const { getPost, deletePostById } = useContext(PostContext);
+  const { getPost, deletePostById, editPost } = useContext(PostContext);
   const { id } = useParams();
   const [showToast, setShowToast] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [formState, setformState] = useState({});
 
+  const toggleModal = () => setShowModal(!showModal);
   const toggleToast = () => setShowToast(!showToast);
+
+  const handleUserInput = (e) => {
+    const updatedState = { ...formState }
+    updatedState[e.target.id] = e.target.value
+    setformState(updatedState)
+  }
 
   // Use this hook to allow us to programatically redirect users
   const history = useHistory();
@@ -18,16 +27,28 @@ const PostDetails = () => {
     getPost(id).then(setPost);
   }, []);
 
+  useEffect(() => {
+    setformState(post);
+  }, [post]);
+
   if (!post) {
     return null;
   }
 
   const deletePost = (e) => {
     e.preventDefault();
-    debugger
 
     deletePostById(post.id).then((p) => {
       history.push("/");
+    });
+  };
+
+  const updatePost = (e) => {
+    e.preventDefault();
+    debugger
+
+    editPost(formState.id, formState).then(() => {
+      getPost(formState.id).then(setPost).then(toggleModal);
     });
   };
 
@@ -47,7 +68,9 @@ const PostDetails = () => {
               <ToastBody>
                 Are you certain that you wish to delete the post: {post.title}
               </ToastBody>
-              <Button onClick={toggleToast} color="primary">No, Cancel</Button><Button onClick={deletePost} color="danger">Yes, Delete Post</Button>
+              <div className="buttonContainer">
+                <Button onClick={toggleToast} color="primary">No, Cancel</Button><Button onClick={deletePost} color="danger">Yes, Delete Post</Button>
+              </div>
             </Toast>
           </div>
 
@@ -57,8 +80,57 @@ const PostDetails = () => {
             <ListGroupItem>{post.content}</ListGroupItem>
             <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>
             <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
-            <ListGroupItem className="detailsButtonContainer"><Button onClick={toggleToast} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
+            <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
           </ListGroup>
+
+          <div>
+            <Modal isOpen={showModal} toggle={toggleModal}>
+              <ModalHeader toggle={toggleModal}>Edit post: {post.title}</ModalHeader>
+              <ModalBody>
+                <CardBody>
+                  <Form onSubmit={updatePost}>
+                    <FormGroup>
+                      <Label for="imageLocation">Image URL</Label>
+                      <Input
+                        id="imageLocation"
+                        type="url"
+                        defaultValue={post.imageLocation}
+                        onChange={handleUserInput}
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="title">Title</Label>
+                      <Input id="title" defaultValue={post.title} onChange={handleUserInput} required />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="content">Content</Label>
+                      <Input
+                        id="content"
+                        defaultValue={post.content}
+                        onChange={handleUserInput}
+                        required
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="publishDateTime">Publication Date</Label>
+                      <Input
+                        id="publishDateTime"
+                        type="date"
+                        defaultValue={unformatedDate}
+                        onChange={handleUserInput}
+                      />
+                    </FormGroup>
+                    <div className="buttonContainer">
+                      <Button color="info" type="submit">
+                        EDIT POST
+                      </Button>
+                      <Button color="warning" onClick={toggleModal}>CANCEL EDIT</Button>{' '}
+                    </div>
+                  </Form>
+                </CardBody>
+              </ModalBody>
+            </Modal>
+          </div>
         </div>
       </div>
     </div>
