@@ -46,5 +46,15 @@ namespace Tabloid.Repositories
             _context.Tag.Remove(tag);
             _context.SaveChanges();
         }
+
+        public List<Tag> GetTagsByPostId(int id)
+        {
+            return _context.Tag
+                .Include(t => t.Id == t.PostTag.TagId)
+                .Include(t => t.PostTag.PostId == t.Post.Id)
+                .Where(t => t.PostTag.PostId == id)
+                .OrderBy(c => c.Name)
+                .ToList();
+        }
     }
 }

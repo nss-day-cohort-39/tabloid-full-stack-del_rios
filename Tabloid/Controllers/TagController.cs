@@ -33,6 +33,12 @@ namespace Tabloid.Controllers
             return Ok(_tagRepository.GetById(Id));
         }
 
+        [HttpGet("post/{Id}")]
+        public IActionResult GetByPostId(int Id)
+        {
+            return Ok(_tagRepository.GetById(Id));
+        }
+
         [HttpPost]
         public IActionResult Post(Tag tag)
         {

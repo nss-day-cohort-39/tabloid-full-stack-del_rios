@@ -71,5 +71,7 @@ namespace Tabloid.Repositories
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
+
+
     }
 }
