@@ -5,8 +5,7 @@ import { CategoryContext } from "../../providers/CategoryProvider";
 
 export const Category = ({ category }) => {
 
-    const { deleteCategory, updateCategory } = useContext(CategoryContext)
-
+    const { categories, getAllCategories, updateCategory } = useContext(CategoryContext)
     const name = useRef()
 
     const [modal, setModal] = useState(false)
@@ -18,8 +17,17 @@ export const Category = ({ category }) => {
     const catUpdate = () => {
         updateCategory({
             id: category.id,
-            name: name.current.value
+            name: name.current.value,
+            active: true
         }).then(toggleEdit)
+    }
+
+    const catDelete = () => {
+        updateCategory({
+            id: category.id,
+            name: category.name,
+            active: !category.active
+        }).then(toggle)
     }
 
     return (
@@ -61,7 +69,6 @@ export const Category = ({ category }) => {
                                             onClick={
                                                 evt => {
                                                     evt.preventDefault() // Prevent browser from submitting the form
-
                                                     catUpdate()
 
 
@@ -97,8 +104,8 @@ export const Category = ({ category }) => {
                                     onClick={
                                         evt => {
                                             evt.preventDefault() // Prevent browser from submitting the form
+                                            catDelete()
 
-                                            deleteCategory(category.id).then(toggle)
                                         }
                                     }
                                     className="btn btn-danger">

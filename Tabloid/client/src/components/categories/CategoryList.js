@@ -9,17 +9,21 @@ export const CategoryList = () => {
     const [categoryInput, setCategoryInput] = useState(false)
     const name = useRef()
 
-    // useEffect(() => {
-    //     getAllCategories();
-    // }, []);
+
     useEffect(() => {
         getAllCategories();
-    }, [categories]);
+    }, []);
 
     const constructNewCategory = () => {
-        addCategory({
-            name: name.current.value,
-        })
+        if (name.current.value !== "") {
+            addCategory({
+                name: name.current.value,
+                active: true
+            })
+        }
+        else {
+            return
+        }
     }
 
     const displayCategoryInput = () => {

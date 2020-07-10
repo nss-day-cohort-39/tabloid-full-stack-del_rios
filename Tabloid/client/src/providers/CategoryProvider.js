@@ -31,7 +31,7 @@ export const CategoryProvider = (props) => {
                 body: JSON.stringify(category)
             }).then(resp => {
                 if (resp.ok) {
-                    return resp.json();
+                    return resp.json().then(getAllCategories);
                 }
                 throw new Error("Unauthorized");
             }));
@@ -45,18 +45,18 @@ export const CategoryProvider = (props) => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(category)
-            }));
+            }).then(getAllCategories));
 
-    const deleteCategory = (id) =>
-        getToken().then((token) =>
-            fetch(`api/category/${id}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(id)
-            }));
+    // const deleteCategory = (id) =>
+    //     getToken().then((token) =>
+    //         fetch(`api/category/${id}`, {
+    //             method: "DELETE",
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify(id)
+    //         }).then(getAllCategories));
 
     const getCategory = (id) => {
         getToken().then((token) =>
@@ -71,7 +71,7 @@ export const CategoryProvider = (props) => {
 
 
     return (
-        <CategoryContext.Provider value={{ categories, getAllCategories, addCategory, getCategory, deleteCategory, updateCategory }}>
+        <CategoryContext.Provider value={{ categories, getAllCategories, addCategory, getCategory, updateCategory }}>
             {props.children}
         </CategoryContext.Provider>
     );
