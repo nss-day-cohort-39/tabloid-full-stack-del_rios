@@ -340,4 +340,4 @@ ASALocalRun/
 healthchecksdb
 
 *.swp
-appsettings.Local.json
+*/appsettings.Local.json

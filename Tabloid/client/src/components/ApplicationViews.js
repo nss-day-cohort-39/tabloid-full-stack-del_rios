@@ -7,6 +7,7 @@ import Login from "./Login";
 import Register from "./Register";
 import PostList from "./PostList";
 import { PostForm } from "./PostForm";
+import { CategoryList } from "./categories/CategoryList"
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -37,6 +38,11 @@ export default function ApplicationViews() {
         <Route path="/register">
           <Register />
         </Route>
+
+        <Route path="/categories">
+          {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
+        </Route>
+
       </Switch>
     </main>
   );
