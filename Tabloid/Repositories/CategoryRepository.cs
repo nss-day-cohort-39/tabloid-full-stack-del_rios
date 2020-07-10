@@ -19,7 +19,10 @@ namespace Tabloid.Repositories
 
         public List<Category> GetAll()
         {
-            return _context.Category.OrderByDescending(c => c.Name).ToList();
+            return _context.Category
+                .Where(c => c.Active == true)
+                .OrderBy(c => c.Name)
+                .ToList();
         }
 
         public void Add(Category category)
@@ -37,13 +40,6 @@ namespace Tabloid.Repositories
         public Category GetById(int id)
         {
             return _context.Category.FirstOrDefault(c => c.Id == id);
-        }
-
-        public void Delete(int id)
-        {
-            var category = GetById(id);
-            _context.Category.Remove(category);
-            _context.SaveChanges();
         }
 
 
