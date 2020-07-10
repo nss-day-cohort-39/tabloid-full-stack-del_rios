@@ -1,11 +1,14 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { PostContext } from "../providers/PostProvider";
+import { CategoryContext } from "../providers/CategoryProvider";
 import { useParams, useHistory } from "react-router-dom";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
   const { getPost, deletePostById, editPost } = useContext(PostContext);
+  const { getAllCategories, categories } = useContext(CategoryContext)
+  const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -28,6 +31,10 @@ const PostDetails = () => {
   }, []);
 
   useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  useEffect(() => {
     setformState(post);
   }, [post]);
 
@@ -45,17 +52,29 @@ const PostDetails = () => {
 
   const updatePost = (e) => {
     e.preventDefault();
-    debugger
 
+    formState.categoryId = +formState.categoryId;
     editPost(formState.id, formState).then(() => {
       getPost(formState.id).then(setPost).then(toggleModal);
     });
   };
 
+  const formButtonContainer = () => {
+    return (
+      <div className="buttonContainer">
+        <Button color="info" type="submit">
+          EDIT POST
+        </Button>
+        <Button color="warning" onClick={toggleModal}>CANCEL EDIT</Button>{' '}
+      </div>
+    )
+  }
+
   const unformatedDate = post.publishDateTime.split("T")[0];
   const [year, month, day] = unformatedDate.split("-");
   const formatedDate = month + "/" + day + "/" + year;
 
+  debugger
   return (
     <div className="container">
       <div className="row justify-content-center">
@@ -78,9 +97,14 @@ const PostDetails = () => {
             <ListGroupItem> <strong>Title: </strong>{post.title}</ListGroupItem>
             <ListGroupItem> <CardImg top src={post.imageLocation} alt={post.title} /></ListGroupItem>
             <ListGroupItem>{post.content}</ListGroupItem>
+            <ListGroupItem><strong>Category</strong>: {post.category.name}</ListGroupItem>
             <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>
             <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
-            <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
+            {
+              (post.userProfileId === userProfileId)
+                ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
+                : ""
+            }
           </ListGroup>
 
           <div>
@@ -120,12 +144,21 @@ const PostDetails = () => {
                         onChange={handleUserInput}
                       />
                     </FormGroup>
-                    <div className="buttonContainer">
-                      <Button color="info" type="submit">
-                        EDIT POST
-                      </Button>
-                      <Button color="warning" onClick={toggleModal}>CANCEL EDIT</Button>{' '}
-                    </div>
+                    <FormGroup>
+                      <Label>Category:</Label>
+                      <select id="categoryId" defaultValue={post.category.id} onChange={handleUserInput}>
+                        {
+                          categories.map(c => {
+                            return <option key={c.id} value={c.id}>{c.name}</option>
+                          })
+                        }
+                      </select>
+                    </FormGroup>
+                    {
+                      (post.userProfileId === userProfileId)
+                        ? formButtonContainer()
+                        : ""
+                    }
                   </Form>
                 </CardBody>
               </ModalBody>
@@ -138,3 +171,5 @@ const PostDetails = () => {
 };
 
 export default PostDetails;
+
+

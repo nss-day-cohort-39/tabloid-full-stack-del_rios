@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
     Form,
     FormGroup,
@@ -9,10 +9,12 @@ import {
     Button,
 } from "reactstrap";
 import { PostContext } from "../providers/PostProvider";
+import { CategoryContext } from "../providers/CategoryProvider";
 import { useHistory } from "react-router-dom";
 
 export const PostForm = () => {
     const { addPost } = useContext(PostContext);
+    const { getAllCategories, categories } = useContext(CategoryContext)
     const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
     const [formState, setformState] = useState({ userProfileId: +userProfileId });
 
@@ -22,6 +24,10 @@ export const PostForm = () => {
         setformState(updatedState)
     }
 
+    useEffect(() => {
+        getAllCategories();
+    }, []);
+
     // Use this hook to allow us to programatically redirect users
     const history = useHistory();
 
@@ -29,7 +35,7 @@ export const PostForm = () => {
         e.preventDefault();
 
         formState.isApproved = true;
-        formState.categoryId = 1;
+        formState.categoryId = +formState.categoryId;
 
         addPost(formState).then((p) => {
             history.push(`/post/${p.id}`);
@@ -69,6 +75,16 @@ export const PostForm = () => {
                                     type="date"
                                     onChange={handleUserInput}
                                 />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Category:</Label>
+                                <select id="categoryId" onChange={handleUserInput}>
+                                    {
+                                        categories.map(c => {
+                                            return <option key={c.id} value={c.id}>{c.name}</option>
+                                        })
+                                    }
+                                </select>
                             </FormGroup>
                             <div className="buttonContainer">
                                 <Button color="info" type="submit">
