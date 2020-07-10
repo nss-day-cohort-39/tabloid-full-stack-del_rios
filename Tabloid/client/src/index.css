@@ -16,3 +16,11 @@ p {
 .post p {
     white-space: pre-wrap;
 }
+
+.buttonContainer {
+  text-align: center;
+}
+
+.buttonContainer > button {
+  margin: 1% 10%;
+}
