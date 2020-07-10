@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { PostContext } from "../providers/PostProvider";
-import { CategoryContext } from "../providers/CategoryProvider";
+import { PostContext } from "../../providers/PostProvider";
+import { CategoryContext } from "../../providers/CategoryProvider";
 import { useParams, useHistory } from "react-router-dom";
 
 const PostDetails = () => {
@@ -79,20 +79,6 @@ const PostDetails = () => {
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-sm-12 col-lg-6">
-          <div className="p-3 my-2 rounded">
-            <Toast isOpen={showToast}>
-              <ToastHeader className="bg-danger">
-                Warning
-              </ToastHeader>
-              <ToastBody>
-                Are you certain that you wish to delete the post: {post.title}
-              </ToastBody>
-              <div className="buttonContainer">
-                <Button onClick={toggleToast} color="primary">No, Cancel</Button><Button onClick={deletePost} color="danger">Yes, Delete Post</Button>
-              </div>
-            </Toast>
-          </div>
-
           <ListGroup>
             <ListGroupItem> <strong>Title: </strong>{post.title}</ListGroupItem>
             <ListGroupItem> <CardImg top src={post.imageLocation} alt={post.title} /></ListGroupItem>
@@ -106,6 +92,20 @@ const PostDetails = () => {
                 : ""
             }
           </ListGroup>
+
+          <div className="p-3 my-2 rounded">
+            <Toast isOpen={showToast}>
+              <ToastHeader className="bg-danger">
+                Warning
+              </ToastHeader>
+              <ToastBody>
+                Are you certain that you wish to delete the post: {post.title}
+              </ToastBody>
+              <div className="buttonContainer">
+                <Button onClick={toggleToast} color="primary">No, Cancel</Button><Button onClick={deletePost} color="danger">Yes, Delete Post</Button>
+              </div>
+            </Toast>
+          </div>
 
           <div>
             <Modal isOpen={showModal} toggle={toggleModal}>

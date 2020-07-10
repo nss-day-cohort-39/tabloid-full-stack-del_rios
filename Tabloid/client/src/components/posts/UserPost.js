@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { PostContext } from "../providers/PostProvider";
+import { PostContext } from "../../providers/PostProvider";
 import Post from "./Post";
 
 

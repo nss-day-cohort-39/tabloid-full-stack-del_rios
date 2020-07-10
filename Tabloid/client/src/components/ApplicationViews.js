@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
-import PostDetails from "./PostDetails"
-import UserPost from "./UserPost"
-import Login from "./Login";
-import Register from "./Register";
-import PostList from "./PostList";
-import { PostForm } from "./PostForm";
+import PostDetails from "./posts/PostDetails"
+import UserPost from "./posts/UserPost"
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+import PostList from "./posts/PostList";
+import { PostForm } from "./posts/PostForm";
 import { CategoryList } from "./categories/CategoryList"
 
 export default function ApplicationViews() {
