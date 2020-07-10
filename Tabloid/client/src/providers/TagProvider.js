@@ -1,16 +1,16 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserProfileContext } from "./UserProfileProvider";
 
-export const CategoryContext = React.createContext();
+export const TagContext = React.createContext();
 
-export const CategoryProvider = (props) => {
+export const TagProvider = (props) => {
 
-    const apiUrl = "/api/category";
+    const apiUrl = "/api/tag";
 
     const { getToken } = useContext(UserProfileContext);
-    const [categories, setCategories] = useState([]);
+    const [tags, setTags] = useState([]);
 
-    const getAllCategories = () =>
+    const getAllTags = () =>
         getToken().then((token) =>
             fetch(apiUrl, {
                 method: "GET",
@@ -18,9 +18,9 @@ export const CategoryProvider = (props) => {
                     Authorization: `Bearer ${token}`
                 }
             }).then(resp => resp.json())
-                .then(setCategories));
+                .then(setTags));
 
-    const addCategory = (category) =>
+    const addTag = (tag) =>
         getToken().then((token) =>
             fetch(apiUrl, {
                 method: "POST",
@@ -28,28 +28,44 @@ export const CategoryProvider = (props) => {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(category)
+                body: JSON.stringify(tag)
             }).then(resp => {
                 if (resp.ok) {
-                    return resp.json().then(getAllCategories);
+                    return resp.json().then(getAllTags);
                 }
                 throw new Error("Unauthorized");
             }));
 
-    const updateCategory = (category) =>
+    const updateTag = (tag) =>
         getToken().then((token) =>
-            fetch(`api/category/${category.id}`, {
+            fetch(`api/tag/${tag.id}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(category)
-            }).then(getAllCategories));
+                body: JSON.stringify(tag)
+            }).then(getAllTags));
 
-    const getCategory = (id) => {
+    const deleteTag = (id) => {
+        return getToken().then((token) =>
+            fetch(`/api/tag/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then((resp) => {
+                if (resp.ok) {
+                    return;
+                }
+                throw new Error("Failed to delete tag.")
+            })
+        );
+    };
+
+    const getTagById = (id) => {
         getToken().then((token) =>
-            fetch(`/api/category/${id}`, {
+            fetch(`/api/tag/${id}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -58,10 +74,9 @@ export const CategoryProvider = (props) => {
             .then((res) => res.json())
     }
 
-
     return (
-        <CategoryContext.Provider value={{ categories, getAllCategories, addCategory, getCategory, updateCategory }}>
+        <TagContext.Provider value={{ tags, getAllTags, addTag, updateTag, deleteTag, getTagById }}>
             {props.children}
-        </CategoryContext.Provider>
+        </TagContext.Provider>
     );
 };
