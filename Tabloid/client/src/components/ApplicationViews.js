@@ -4,7 +4,7 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
-import { CategoryList } from "./CategoryList"
+import { CategoryList } from "./categories/CategoryList"
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);

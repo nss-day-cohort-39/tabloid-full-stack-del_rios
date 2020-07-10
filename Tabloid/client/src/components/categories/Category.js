@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { Card, CardBody, Button, Modal, ModalHeader, ModalBody } from "reactstrap";
-import "../css/Category.css"
-import { CategoryContext } from "../providers/CategoryProvider";
+import "../../css/Category.css"
+import { CategoryContext } from "../../providers/CategoryProvider";
 
 export const Category = ({ category }) => {
 
