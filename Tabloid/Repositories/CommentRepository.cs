@@ -22,7 +22,6 @@ namespace Tabloid.Repositories
 
         public void Add(Comment comment)
         {
-            comment.CreateDateTime = DateTime.Now;
             _context.Add(comment);
             _context.SaveChanges();
         }

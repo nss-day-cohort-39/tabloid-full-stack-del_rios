@@ -1,10 +1,11 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import { useParams, useHistory } from "react-router-dom";
 import { Comment } from "../comments/Comment";
 import Post from "./Post";
+import { CommentList } from "../comments/CommentList";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
@@ -31,7 +32,10 @@ const PostDetails = () => {
     if (displayComment && post.comments.length > 0) {
       return (
         <div>
-          {post.comments.map(c => <Comment key={c.id} comment={c} />)}
+          <CommentList comments={post.comments} setPost={setPost} postId={post.id} />
+          {/* {
+            post.comments.map(c => <Comment key={c.id} comment={c} setPost={setPost} />)
+          } */}
         </div>
       )
     }

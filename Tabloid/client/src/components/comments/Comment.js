@@ -1,75 +1,114 @@
 import React, { useContext, useState, useRef } from "react";
 import { CommentContext } from "../../providers/CommentProvider";
-import { Button } from "reactstrap";
+import { Button, Card, Toast, ToastBody, ToastHeader } from "reactstrap";
+import { PostContext } from "../../providers/PostProvider";
 
 
 
-export const Comment = (comment) => {
-    const { updateComment } = useContext(CommentContext)
-    const unformatedDate = comment.comment.createDateTime.split("T")[0];
+export const Comment = ({ comment, setPost }) => {
+    const { updateComment, deleteComment } = useContext(CommentContext)
+    const { getPost } = useContext(PostContext)
+
+    const unformatedDate = comment.createDateTime.split("T")[0];
     const [year, month, day] = unformatedDate.split("-");
     const formatedDate = month + "/" + day + "/" + year;
     const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
     const [editComment, setEditComment] = useState(false)
     const subject = useRef()
     const content = useRef()
+    const [showToast, setShowToast] = useState(false);
+    const toggleToast = () => setShowToast(!showToast);
+
+    const nukeComment = (e) => {
+        e.preventDefault();
+
+        deleteComment(comment.id).then(getPost(comment.postId).then(post => setPost(post)).then(toggleToast));
+    };
 
     const updateThisComment = () => {
 
         const updatedComment = {
-            id: comment.comment.id,
+            id: comment.id,
             userProfileId: userProfileId,
-            postId: comment.comment.postId,
+            postId: comment.postId,
             subject: subject.current.value,
             content: content.current.value,
             createDateTime: new Date()
 
         }
-        updateComment(updatedComment.id, updatedComment)
-
+        updateComment(updatedComment.id, updatedComment).then(getPost(updatedComment.postId).then(post => setPost(post)));
     }
 
-    if (userProfileId !== comment.comment.userProfile.id) {
+    if (userProfileId !== comment.userProfile.id) {
 
         return (
 
             <>
-                <div className="comment">
-                    <div>Subject: {comment.comment.subject}</div>
-                    <div>Content: {comment.comment.content}</div>
-                    <div>Date Posted: {formatedDate}</div>
-                    <div>Author: {comment.comment.userProfile.displayName}</div>
-                </div>
+                <Card className="comment">
+                    <div className="commentInfoContainer">
+                        <p><strong>Author: </strong>{comment.userProfile.displayName}</p>
+                        <p><strong>Date Posted: </strong>{formatedDate}</p>
+                    </div>
+                    <div><strong>Subject: </strong>{comment.subject}</div>
+                    <div><strong>Content: </strong>{comment.content}</div>
+                </Card>
             </>
         )
     }
-    else if (userProfileId === comment.comment.userProfile.id && editComment === false) {
+    else if (userProfileId === comment.userProfile.id && editComment === false) {
 
         return (
             <>
-                <div className="comment">
-                    <div>Subject: {comment.comment.subject}</div>
-                    <div>Content: {comment.comment.content}</div>
-                    <div>Date Posted: {formatedDate}</div>
-                    <div>Author: {comment.comment.userProfile.displayName}</div>
-                    <Button onClick={e => {
-                        e.preventDefault()
-                        setEditComment(true)
-                    }
-                    }
-                        color="warning">Edit Post</Button>
-                    <Button color="danger">Delete Post</Button>
+                <div className="p-3 my-2 rounded">
+                    <Toast isOpen={showToast}>
+                        <ToastHeader className="bg-danger">
+                            Warning
+                        </ToastHeader>
+                        <ToastBody>
+                            Are you certain that you wish to delete the comment: {comment.subject}
+                        </ToastBody>
+                        <div className="buttonContainer">
+                            <Button onClick={toggleToast} color="primary">No, Cancel</Button><Button onClick={nukeComment} color="danger">Yes, Delete Comment</Button>
+                        </div>
+                    </Toast>
                 </div>
+
+                <Card className="comment">
+                    <div className="commentInfoContainer">
+                        <p><strong>Author: </strong>{comment.userProfile.displayName}</p>
+                        <p><strong>Date Posted: </strong>{formatedDate}</p>
+                    </div>
+                    <div><strong>Subject: </strong>{comment.subject}</div>
+                    <div><strong>Content: </strong>{comment.content}</div>
+                    <div className="buttonContainer">
+
+                        <Button onClick={e => {
+                            e.preventDefault()
+                            setEditComment(true)
+                        }
+                        }
+                            color="warning">Edit Comment</Button>
+                        <Button onClick={e => {
+                            e.preventDefault()
+                            toggleToast();
+                        }
+                        } color="danger">Delete Comment</Button>
+                    </div>
+                </Card>
             </>
         )
     }
 
-    else if (userProfileId === comment.comment.userProfile.id && editComment === true) {
+    else if (userProfileId === comment.userProfile.id && editComment === true) {
 
         return (
             <>
-                <div calssName="comment">
-
+                <Card calssName="comment">
+                    <div className="commentInfoContainer">
+                        <p><strong>Author: </strong>{comment.userProfile.displayName}</p>
+                        <p><strong>Date Posted: </strong>{formatedDate}</p>
+                    </div>
+                    <label><strong>Subject: </strong></label>
                     <input
                         type="text"
                         id="name"
@@ -77,8 +116,9 @@ export const Comment = (comment) => {
                         required
                         autoFocus
                         className="form-control"
-                        defaultValue={comment.comment.subject}
+                        defaultValue={comment.subject}
                     />
+                    <label><strong>Content: </strong></label>
                     <input
                         type="text"
                         id="name"
@@ -86,19 +126,24 @@ export const Comment = (comment) => {
                         required
                         autoFocus
                         className="form-control"
-                        defaultValue={comment.comment.content}
+                        defaultValue={comment.content}
                     />
-                    <div>Date Posted: {formatedDate}</div>
-                    <div>Author: {comment.comment.userProfile.displayName}</div>
-                    <Button onClick={e => {
-                        e.preventDefault()
-                        updateThisComment()
-
-                    }
-                    }
-                        color="primary">Save Changes</Button>
-
-                </div>
+                    <div className="buttonContainer">
+                        <Button onClick={e => {
+                            e.preventDefault()
+                            updateThisComment()
+                            setEditComment(false)
+                        }
+                        }
+                            color="success">Save Changes</Button>
+                        <Button onClick={e => {
+                            e.preventDefault()
+                            setEditComment(false)
+                        }
+                        }
+                            color="warning">Cancel Edit</Button>
+                    </div>
+                </Card>
             </>)
 
     }

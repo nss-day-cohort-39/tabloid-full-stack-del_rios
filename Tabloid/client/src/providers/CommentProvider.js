@@ -4,7 +4,6 @@ import { UserProfileContext } from "./UserProfileProvider";
 export const CommentContext = React.createContext();
 
 export const CommentProvider = (props) => {
-
     const apiUrl = "/api/comment";
 
     const { getToken } = useContext(UserProfileContext);
@@ -18,7 +17,6 @@ export const CommentProvider = (props) => {
                     Authorization: `Bearer ${token}`
                 }
             }).then(resp => {
-                debugger
                 return resp.json()
             })
                 .then(setComments));
@@ -29,12 +27,12 @@ export const CommentProvider = (props) => {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(comment)
             }).then(resp => {
                 if (resp.ok) {
-                    return resp.json().then(getAllComments);
+                    return resp.json();
                 }
                 throw new Error("Unauthorized");
             }));
@@ -42,7 +40,7 @@ export const CommentProvider = (props) => {
     const updateComment = (commentId, comment) => {
 
         return getToken().then((token) =>
-            fetch(`http://localhost:5001/api/comment/${commentId}`, {
+            fetch(apiUrl + `/${commentId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -50,7 +48,6 @@ export const CommentProvider = (props) => {
                 },
                 body: JSON.stringify(comment)
             }).then(resp => {
-                debugger
                 if (resp.ok) {
                     return;
                 }
@@ -58,20 +55,21 @@ export const CommentProvider = (props) => {
             }))
     };
 
-    const deleteComment = (id) =>
-        getToken().then((token) =>
-            fetch(`api/comment/${id}`, {
+    const deleteComment = (id) => {
+        return getToken().then((token) =>
+            fetch(apiUrl + `/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(id)
-            }).then(getAllComments));
+            }));
+    }
 
     const getComment = (id) => {
         getToken().then((token) =>
-            fetch(`/api/comment/${id}`, {
+            fetch(apiUrl + `/${id}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`
