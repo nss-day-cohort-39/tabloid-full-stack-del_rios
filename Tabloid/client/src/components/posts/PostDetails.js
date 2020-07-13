@@ -6,7 +6,7 @@ import { useParams, useHistory } from "react-router-dom";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
-  const { getPost, deletePostById, editPost } = useContext(PostContext);
+  const { getPost, deletePostById, editPost, addTag } = useContext(PostContext);
   const { getAllCategories, categories } = useContext(CategoryContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();

@@ -56,5 +56,8 @@ namespace Tabloid.Repositories
                 .OrderBy(c => c.Name)
                 .ToList();
         }
+
+
+ 
     }
 }

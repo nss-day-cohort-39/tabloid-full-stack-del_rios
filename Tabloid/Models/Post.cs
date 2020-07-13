@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tabloid.Models
@@ -31,7 +32,6 @@ namespace Tabloid.Models
 
         public UserProfile UserProfile { get; set; }
         public Category Category { get; set; }
-        public PostTag PostTag { get; set; }
-        public Tag Tag { get; set; }
+        public List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }
