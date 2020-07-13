@@ -3,12 +3,24 @@ import { Card, CardBody, Button, Modal, ModalHeader, ModalBody } from "reactstra
 import { TagContext } from "../../providers/TagProvider";
 import "../../css/Tag.css"
 import { PostContext } from "../../providers/PostProvider";
+import { useParams } from "react-router-dom";
 
 export const AddTag = ({ tag }) => {
 
-    const {addTagtoPost} = useContext(PostContext)
+    const { addTagtoPost } = useContext(PostContext)
+    const { id } = useParams();
 
+    let postTag = {}
 
+    const addThisTag = (tagId) => {
+        addTagtoPost(
+            postTag =
+            {
+                postId: parseInt(id),
+                TagId: tagId
+            }
+        )
+    }
 
     return (
         <Card className="tagCard">
@@ -17,15 +29,16 @@ export const AddTag = ({ tag }) => {
                     <h4>{tag.name}</h4>
                     <div className="tagButtonContainer">
 
-                                <Button type="submit"
-                                    onClick={
-                                        evt => {
-                                            evt.preventDefault() // Prevent browser from submitting the form
-                                            addTagtoPost() } }
-                                    className="btn btn-danger">
-                                    Add Tag to Post
+                        <Button type="submit"
+                            onClick={
+                                evt => {
+                                    evt.preventDefault() // Prevent browser from submitting the form
+                                    addThisTag(tag.id)
+                                }}
+                            className="btn btn-danger">
+                            Add Tag to Post
                             </Button>
-                            </div>
+                    </div>
                 </div>
             </CardBody>
         </Card>

@@ -39,7 +39,7 @@ export const PostProvider = (props) => {
 
   const addTagtoPost = (postTag) =>
     getToken().then((token) =>
-      fetch(`/api/addtag/`, {
+      fetch(`/api/post/addtag`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ export const PostProvider = (props) => {
         if (resp.ok) {
           return resp.json();
         }
-        throw new Error("Unauthorized");
+        else { throw new Error("Unauthorized"); }
       }));
 
   //   const searchPosts = (search) => {
@@ -71,7 +71,7 @@ export const PostProvider = (props) => {
         if (resp.ok) {
           return resp.json();
         }
-        throw new Error("Unauthorized");
+        else { throw new Error("Unauthorized"); }
       }));
 
   const getUserPost = (id) => {

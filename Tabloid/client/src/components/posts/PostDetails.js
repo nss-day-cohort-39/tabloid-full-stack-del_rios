@@ -65,7 +65,7 @@ const PostDetails = () => {
         <Button color="info" type="submit">
           EDIT POST
         </Button>
-      
+
         <Button color="warning" onClick={toggleModal}>CANCEL EDIT</Button>{' '}
       </div>
     )
@@ -89,7 +89,7 @@ const PostDetails = () => {
             {
               (post.userProfileId === userProfileId)
                 ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button>
-                <Button color="warning"> <Link to={`/AddTagForm`}>Add Tag</Link></Button></ListGroupItem>
+                  <Button color="warning"> <Link to={`/AddTagForm/post/${post.id}`}>Add Tag</Link></Button></ListGroupItem>
                 : ""
             }
           </ListGroup>

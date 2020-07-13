@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Tabloid.Data;
+using Newtonsoft.Json;
 
 namespace Tabloid
 {
@@ -41,6 +42,11 @@ namespace Tabloid
                         ValidateLifetime = true
                     };
                 });
+
+            services.AddControllers()
+                   .AddNewtonsoftJson(options =>
+                       options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                   );
 
             services.AddControllers();
         }
