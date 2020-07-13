@@ -50,19 +50,19 @@ namespace Tabloid.Controllers
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
 
-        //[HttpPost("addtag")]
-        //public IActionResult Post(PostTag postTag)
-        //{
-        //    var currentUserProfile = GetCurrentUserProfile();
-        //    var post = _postRepository.GetById(postTag.PostId);
+        [HttpPost("addtag")]
+        public IActionResult Post(PostTag postTag)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            var post = _postRepository.GetById(postTag.PostId);
 
-        //    if (currentUserProfile.Id != post.UserProfileId)
-        //    {
-        //        return Unauthorized();
-        //    }
-        //    _postRepository.InsertTag(postTag);
-        //    return CreatedAtAction("Get", new { id = postTag.Id }, postTag);
-        //}
+            if (currentUserProfile.Id != post.UserProfileId)
+            {
+                return Unauthorized();
+            }
+            _postRepository.InsertTag(postTag);
+            return CreatedAtAction("Get", new { id = postTag.Id }, postTag);
+        }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, Post post)

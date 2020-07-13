@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
 import { CategoryContext } from "../../providers/CategoryProvider";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
@@ -65,6 +65,7 @@ const PostDetails = () => {
         <Button color="info" type="submit">
           EDIT POST
         </Button>
+      
         <Button color="warning" onClick={toggleModal}>CANCEL EDIT</Button>{' '}
       </div>
     )
@@ -74,7 +75,6 @@ const PostDetails = () => {
   const [year, month, day] = unformatedDate.split("-");
   const formatedDate = month + "/" + day + "/" + year;
 
-  debugger
   return (
     <div className="container">
       <div className="row justify-content-center">
@@ -88,7 +88,8 @@ const PostDetails = () => {
             <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
             {
               (post.userProfileId === userProfileId)
-                ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
+                ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button>
+                <Button color="warning"> <Link to={`/AddTagForm`}>Add Tag</Link></Button></ListGroupItem>
                 : ""
             }
           </ListGroup>

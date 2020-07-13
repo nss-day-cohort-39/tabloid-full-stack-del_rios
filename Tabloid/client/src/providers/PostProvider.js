@@ -37,7 +37,7 @@ export const PostProvider = (props) => {
         throw new Error("Unauthorized");
       }));
 
-  const addTag = (postTag) =>
+  const addTagtoPost = (postTag) =>
     getToken().then((token) =>
       fetch(`/api/addtag/`, {
         method: "POST",
@@ -125,7 +125,7 @@ export const PostProvider = (props) => {
 
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, addPost, addTag, getPost, getUserPost, deletePostById, editPost }}>
+    <PostContext.Provider value={{ posts, getAllPosts, addPost, addTagtoPost, getPost, getUserPost, deletePostById, editPost }}>
       {props.children}
     </PostContext.Provider>
   );

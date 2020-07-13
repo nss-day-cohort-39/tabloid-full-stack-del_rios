@@ -75,11 +75,11 @@ namespace Tabloid.Repositories
             _context.SaveChanges();
         }
 
-        //public void InsertTag(PostTag postTag)
-        //{
-        //    _context.PostTag.Add(postTag);
-        //    _context.SaveChanges();
-        //}
+        public void InsertTag(PostTag postTag)
+        {
+            _context.PostTag.Add(postTag);
+            _context.SaveChanges();
+        }
 
 
     }
