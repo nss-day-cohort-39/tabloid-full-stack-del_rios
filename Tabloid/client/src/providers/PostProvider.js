@@ -61,7 +61,7 @@ export const PostProvider = (props) => {
 
   const getPost = (id) =>
     getToken().then((token) =>
-      fetch(`/ api / post / ${id}`, {
+      fetch(`/api/post/${id}`, {
         method: "Get",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ export const PostProvider = (props) => {
 
   const getUserPost = (id) => {
     getToken().then((token) =>
-      fetch(`/ api / post / getbyuser / ${id}`, {
+      fetch(`/api/post/getbyuser/${id}`, {
         method: "Get",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -92,7 +92,7 @@ export const PostProvider = (props) => {
 
   const deletePostById = (id) => {
     return getToken().then((token) =>
-      fetch(`/ api / post / ${id}`, {
+      fetch(`/api/post/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -108,7 +108,7 @@ export const PostProvider = (props) => {
 
   const editPost = (id, post) => {
     return getToken().then((token) =>
-      fetch(apiUrl + `/ ${id}`, {
+      fetch(apiUrl + `/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

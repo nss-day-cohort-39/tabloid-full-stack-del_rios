@@ -11,7 +11,5 @@ namespace Tabloid.Models
 
         public string Name { get; set; }
 
-        public PostTag PostTag { get; set; }
-        public Post Post { get; set; }
     }
 }

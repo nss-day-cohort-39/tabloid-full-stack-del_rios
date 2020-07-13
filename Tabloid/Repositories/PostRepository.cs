@@ -39,6 +39,8 @@ namespace Tabloid.Repositories
             return _context.Post
                            .Include(p => p.UserProfile)
                            .Include(p => p.Category)
+                           .Include(p => p.PostTags)
+                           .ThenInclude(pt => pt.Tag)
                            .Where(p => p.IsApproved == true && p.PublishDateTime <= DateTime.Now)
                            .FirstOrDefault(p => p.Id == id);
         }
@@ -73,11 +75,11 @@ namespace Tabloid.Repositories
             _context.SaveChanges();
         }
 
-        public void InsertTag(PostTag postTag)
-        {
-            _context.PostTag.Add(postTag);
-            _context.SaveChanges();
-        }
+        //public void InsertTag(PostTag postTag)
+        //{
+        //    _context.PostTag.Add(postTag);
+        //    _context.SaveChanges();
+        //}
 
 
     }

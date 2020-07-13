@@ -32,6 +32,6 @@ namespace Tabloid.Models
 
         public UserProfile UserProfile { get; set; }
         public Category Category { get; set; }
-        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public List<PostTag> PostTags { get; set; } = new List<PostTag>();
     }
 }
