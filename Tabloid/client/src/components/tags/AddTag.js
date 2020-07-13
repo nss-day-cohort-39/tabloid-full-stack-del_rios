@@ -29,15 +29,16 @@ export const AddTag = ({ tag }) => {
                     <h4>{tag.name}</h4>
                     <div className="tagButtonContainer">
 
-                        <Button type="submit"
+
+                        <button type="submit"
                             onClick={
                                 evt => {
                                     evt.preventDefault() // Prevent browser from submitting the form
                                     addThisTag(tag.id)
                                 }}
-                            className="btn btn-danger">
+                            className="btn btn-primary">
                             Add Tag to Post
-                            </Button>
+                            </button>
                     </div>
                 </div>
             </CardBody>

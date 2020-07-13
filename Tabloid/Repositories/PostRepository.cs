@@ -50,6 +50,8 @@ namespace Tabloid.Repositories
             return _context.Post
                            .Include(p => p.UserProfile)
                            .Include(p => p.Category)
+                           .Include(p => p.PostTags)
+                           .ThenInclude(pt => pt.Tag)
                            .Where(p => p.IsApproved == true || p.UserProfileId == p.UserProfile.Id)
                            .Where(p => p.PublishDateTime <= DateTime.Now)
                            .FirstOrDefault(p => p.Id == id);

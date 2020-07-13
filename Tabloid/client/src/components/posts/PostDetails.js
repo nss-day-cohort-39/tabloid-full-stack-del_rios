@@ -3,6 +3,7 @@ import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupIt
 import { PostContext } from "../../providers/PostProvider";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import { useParams, useHistory, Link } from "react-router-dom";
+import { TagsOnPost } from "../tags/TagsOnPost";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
@@ -88,8 +89,14 @@ const PostDetails = () => {
             <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
             {
               (post.userProfileId === userProfileId)
-                ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button>
-                  <Button color="warning"> <Link to={`/AddTagForm/post/${post.id}`}>Add Tag</Link></Button></ListGroupItem>
+                ? <ListGroupItem className="buttonContainer x"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
+                : ""
+            }
+            <ListGroupItem><div className="postTags"> <strong>Tags: </strong>  {post.postTags.map(pt => <TagsOnPost key={pt.id} postTag={pt} />)}</div></ListGroupItem>
+
+            {
+              (post.userProfileId === userProfileId)
+                ? <ListGroupItem><Link to={`/AddTagForm/post/${post.id}`}><h6>Manage Tags</h6></Link></ListGroupItem>
                 : ""
             }
           </ListGroup>
@@ -167,7 +174,7 @@ const PostDetails = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
