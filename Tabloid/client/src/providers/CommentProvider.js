@@ -17,7 +17,10 @@ export const CommentProvider = (props) => {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            }).then(resp => resp.json())
+            }).then(resp => {
+                debugger
+                return resp.json()
+            })
                 .then(setComments));
 
     const addComment = (comment) =>
@@ -36,20 +39,28 @@ export const CommentProvider = (props) => {
                 throw new Error("Unauthorized");
             }));
 
-    const updateComment = (comment) =>
-        getToken().then((token) =>
-            fetch(`api/category/${comment.id}`, {
+    const updateComment = (commentId, comment) => {
+
+        return getToken().then((token) =>
+            fetch(`http://localhost:5001/api/comment/${commentId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(comment)
-            }).then(getAllComments));
+            }).then(resp => {
+                debugger
+                if (resp.ok) {
+                    return;
+                }
+                throw new Error("Unauthorized");
+            }))
+    };
 
     const deleteComment = (id) =>
         getToken().then((token) =>
-            fetch(`api/category/${id}`, {
+            fetch(`api/comment/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -60,7 +71,7 @@ export const CommentProvider = (props) => {
 
     const getComment = (id) => {
         getToken().then((token) =>
-            fetch(`/api/category/${id}`, {
+            fetch(`/api/comment/${id}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`

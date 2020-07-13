@@ -24,5 +24,7 @@ namespace Tabloid.Models
 
         [Required]
         public DateTime CreateDateTime { get; set; }
+
+        public UserProfile UserProfile { get; set; }
     }
 }
