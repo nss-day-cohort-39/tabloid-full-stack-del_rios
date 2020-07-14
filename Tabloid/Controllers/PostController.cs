@@ -36,6 +36,7 @@ namespace Tabloid.Controllers
         public IActionResult Get(int id)
         {
             var post = _postRepository.GetApprovedPostById(id);
+            
             if (post == null)
             {
                 return NotFound();

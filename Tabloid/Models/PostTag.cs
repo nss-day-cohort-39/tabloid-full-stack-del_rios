@@ -18,6 +18,5 @@ namespace Tabloid.Models
         public Tag Tag { get; set; }
 
 
-
     }
 }

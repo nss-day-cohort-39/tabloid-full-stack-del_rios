@@ -75,9 +75,9 @@ export const PostProvider = (props) => {
   //   .then(setPosts)
   //   };
 
-  const getPost = (id) =>
-    getToken().then((token) =>
-      fetch(`/api/post/${id}`, {
+  const getPost = (id) => {
+    return getToken().then((token) =>
+      fetch(apiUrl + `/${id}`, {
         method: "Get",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -89,10 +89,11 @@ export const PostProvider = (props) => {
         }
         else { throw new Error("Unauthorized"); }
       }));
+  }
 
   const getUserPost = (id) => {
     getToken().then((token) =>
-      fetch(`/api/post/getbyuser/${id}`, {
+      fetch(apiUrl + `/getbyuser/${id}`, {
         method: "Get",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -108,7 +109,7 @@ export const PostProvider = (props) => {
 
   const deletePostById = (id) => {
     return getToken().then((token) =>
-      fetch(`/api/post/${id}`, {
+      fetch(apiUrl + `/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
