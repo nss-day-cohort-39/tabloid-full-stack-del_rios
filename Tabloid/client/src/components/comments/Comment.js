@@ -93,6 +93,7 @@ export const Comment = (comment) => {
                     <Button onClick={e => {
                         e.preventDefault()
                         updateThisComment()
+                        setEditComment(false)
 
                     }
                     }

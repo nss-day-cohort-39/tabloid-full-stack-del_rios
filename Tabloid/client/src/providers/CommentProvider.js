@@ -42,7 +42,7 @@ export const CommentProvider = (props) => {
     const updateComment = (commentId, comment) => {
 
         return getToken().then((token) =>
-            fetch(`http://localhost:5001/api/comment/${commentId}`, {
+            fetch(`localhost:5001/api/comment/${commentId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
