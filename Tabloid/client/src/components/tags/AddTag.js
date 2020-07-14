@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Card, CardBody, Button, Modal, ModalHeader, ModalBody } from "reactstrap";
-import { TagContext } from "../../providers/TagProvider";
+import React, { useState, useContext, useEffect } from "react";
+import { Card, CardBody } from "reactstrap";
+
 import "../../css/Tag.css"
 import { PostContext } from "../../providers/PostProvider";
 import { useParams } from "react-router-dom";
@@ -22,6 +22,8 @@ export const AddTag = ({ tag }) => {
         addTagtoPost({
             postId: parseInt(id),
             TagId: tagId
+        }).then(() => {
+            getPost(parseInt(id)).then(setPost)
         })
     }
 
@@ -52,8 +54,10 @@ export const AddTag = ({ tag }) => {
                                     onClick={
                                         evt => {
                                             evt.preventDefault() // Prevent browser from submitting the form
-
-                                            removeTagFromPost(post.postTags)
+                                            const postTag = post.postTags.find(pt => pt.tagId === tag.id)
+                                            removeTagFromPost(postTag.id).then(() => {
+                                                getPost(parseInt(id)).then(setPost)
+                                            })
                                         }}
                                     className="btn btn-danger">
                                     Remove Tag From Post

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { Tag } from "./Tag"
 import { TagContext } from "../../providers/TagProvider"
-import { Button } from "reactstrap";
 
 export const TagList = () => {
 
