@@ -21,7 +21,7 @@ namespace Tabloid.Controllers
         public IActionResult Post(Comment comment)
         {
             _commentRepository.Add(comment);
-            return CreatedAtAction("Get", new { id = comment.Id }, comment);
+            return Ok();
         }
 
         [HttpPut("{id}")]

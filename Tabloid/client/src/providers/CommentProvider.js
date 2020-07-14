@@ -21,21 +21,22 @@ export const CommentProvider = (props) => {
             })
                 .then(setComments));
 
-    const addComment = (comment) =>
-        getToken().then((token) =>
+    const addComment = (comment) => {
+        return getToken().then((token) =>
             fetch(apiUrl, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(comment)
+                body: JSON.stringify(comment),
             }).then(resp => {
                 if (resp.ok) {
-                    return resp.json();
+                    return resp.ok;
                 }
                 throw new Error("Unauthorized");
             }));
+    }
 
     const updateComment = (commentId, comment) => {
 

@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { CommentContext } from "../../providers/CommentProvider";
+import { PostContext } from "../../providers/PostProvider";
 import { Comment } from "./Comment";
 import { Button } from "reactstrap";
 
@@ -7,6 +8,7 @@ import { Button } from "reactstrap";
 
 export const CommentList = ({ comments, setPost, postId }) => {
     const { addComment } = useContext(CommentContext);
+    const { getPost } = useContext(PostContext)
     const [commentInput, setCommentInput] = useState(false);
     const [commentButton, setCommentButton] = useState(true);
     const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
@@ -23,6 +25,7 @@ export const CommentList = ({ comments, setPost, postId }) => {
         }
 
         addComment(commentObject).then(e => {
+            getPost(postId).then(post => setPost(post));
             setCommentInput(false);
             setCommentButton(true);
         });
@@ -51,7 +54,7 @@ export const CommentList = ({ comments, setPost, postId }) => {
                     <label><strong>Subject: </strong></label>
                     <input
                         type="text"
-                        id="name"
+                        id="subject"
                         ref={subject}
                         required
                         autoFocus
@@ -61,7 +64,7 @@ export const CommentList = ({ comments, setPost, postId }) => {
                     <label><strong>Content: </strong></label>
                     <input
                         type="text"
-                        id="name"
+                        id="content"
                         ref={content}
                         required
                         autoFocus

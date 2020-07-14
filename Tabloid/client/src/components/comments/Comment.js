@@ -36,7 +36,9 @@ export const Comment = ({ comment, setPost }) => {
             createDateTime: new Date()
 
         }
-        updateComment(updatedComment.id, updatedComment).then(getPost(updatedComment.postId).then(post => setPost(post)));
+        updateComment(updatedComment.id, updatedComment).then(() => {
+            getPost(updatedComment.postId).then(post => setPost(post));
+        });
     }
 
     if (userProfileId !== comment.userProfile.id) {
@@ -103,7 +105,7 @@ export const Comment = ({ comment, setPost }) => {
 
         return (
             <>
-                <Card calssName="comment">
+                <Card className="comment">
                     <div className="commentInfoContainer">
                         <p><strong>Author: </strong>{comment.userProfile.displayName}</p>
                         <p><strong>Date Posted: </strong>{formatedDate}</p>
@@ -111,7 +113,7 @@ export const Comment = ({ comment, setPost }) => {
                     <label><strong>Subject: </strong></label>
                     <input
                         type="text"
-                        id="name"
+                        id="subject"
                         ref={subject}
                         required
                         autoFocus
@@ -121,7 +123,7 @@ export const Comment = ({ comment, setPost }) => {
                     <label><strong>Content: </strong></label>
                     <input
                         type="text"
-                        id="name"
+                        id="content"
                         ref={content}
                         required
                         autoFocus
