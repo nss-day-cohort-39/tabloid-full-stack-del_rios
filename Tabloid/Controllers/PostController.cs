@@ -35,13 +35,25 @@ namespace Tabloid.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var post = _postRepository.GetApprovedPostById(id);
-            
-            if (post == null)
+            var currentUserProfile = GetCurrentUserProfile();
+            var post = _postRepository.GetById(id);
+            var aprovedPost = _postRepository.GetApprovedPostById(id);
+            if (post == null && aprovedPost == null)
             {
                 return NotFound();
             }
-            return Ok(post);
+            if (aprovedPost != null)
+            {
+                return Ok(aprovedPost);
+            }
+            else if (post != null && post.UserProfileId == currentUserProfile.Id)
+            {
+                return Ok(post);
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         [HttpPost]
