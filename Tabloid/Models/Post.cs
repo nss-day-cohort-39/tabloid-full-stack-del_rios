@@ -32,6 +32,7 @@ namespace Tabloid.Models
 
         public UserProfile UserProfile { get; set; }
         public Category Category { get; set; }
+        public List<PostTag> PostTags { get; set; } = new List<PostTag>();
         public List<Comment> Comments { get; set; }
 
     }

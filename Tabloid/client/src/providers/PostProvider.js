@@ -37,8 +37,40 @@ export const PostProvider = (props) => {
         throw new Error("Unauthorized");
       }));
 
+  const addTagtoPost = (postTag) =>
+    getToken().then((token) =>
+      fetch(`/api/post/addtag`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postTag),
+      }).then(resp => {
+        if (resp.ok) {
+          return resp.json();
+        }
+        else { throw new Error("Unauthorized"); }
+      }));
+
+  const removeTagFromPost = (id) => {
+    return getToken().then((token) =>
+      fetch(`/api/post/addtag/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((resp) => {
+        if (resp.ok) {
+          return;
+        }
+        else { throw new Error("Failed to delete post.") }
+      })
+    );
+  };
+
   //   const searchPosts = (search) => {
-  //     return fetch(`api/post/search?q=${search}`)
+  //     return fetch(`api / post / search ? q = ${ search }`)
   //   .then(res => res.json())
   //   .then(setPosts)
   //   };
@@ -55,7 +87,7 @@ export const PostProvider = (props) => {
         if (resp.ok) {
           return resp.json();
         }
-        throw new Error("Unauthorized");
+        else { throw new Error("Unauthorized"); }
       }));
   }
 
@@ -110,7 +142,7 @@ export const PostProvider = (props) => {
 
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, addPost, getPost, getUserPost, deletePostById, editPost }}>
+    <PostContext.Provider value={{ posts, getAllPosts, addPost, addTagtoPost, removeTagFromPost, getPost, getUserPost, deletePostById, editPost }}>
       {props.children}
     </PostContext.Provider>
   );
