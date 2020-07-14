@@ -24,3 +24,12 @@ p {
 .buttonContainer > button {
   margin: 1% 10%;
 }
+
+.commentInfoContainer {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.commentInfoContainer > p {
+  margin: auto;
+}

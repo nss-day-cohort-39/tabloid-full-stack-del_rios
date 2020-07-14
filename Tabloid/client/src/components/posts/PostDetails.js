@@ -1,8 +1,11 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import { useParams, useHistory } from "react-router-dom";
+import { Comment } from "../comments/Comment";
+import Post from "./Post";
+import { CommentList } from "../comments/CommentList";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
@@ -11,11 +14,13 @@ const PostDetails = () => {
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();
   const [showToast, setShowToast] = useState(false);
+  const [displayComment, setDisplayComment] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [formState, setformState] = useState({});
 
   const toggleModal = () => setShowModal(!showModal);
   const toggleToast = () => setShowToast(!showToast);
+  const toggleComments = () => setDisplayComment(!displayComment);
 
   const handleUserInput = (e) => {
     const updatedState = { ...formState }
@@ -23,6 +28,23 @@ const PostDetails = () => {
     setformState(updatedState)
   }
 
+  const commentDisplay = () => {
+    if (displayComment && post.comments.length > 0) {
+      return (
+        <div>
+          <CommentList comments={post.comments} setPost={setPost} postId={post.id} />
+          {/* {
+            post.comments.map(c => <Comment key={c.id} comment={c} setPost={setPost} />)
+          } */}
+        </div>
+      )
+    }
+    else if (displayComment && post.comments.length === 0) {
+      return (
+        <div><h1>AINT NUTTIN HERE BITCH!!!!!!</h1></div>
+      )
+    }
+  }
   // Use this hook to allow us to programatically redirect users
   const history = useHistory();
 
@@ -74,7 +96,7 @@ const PostDetails = () => {
   const [year, month, day] = unformatedDate.split("-");
   const formatedDate = month + "/" + day + "/" + year;
 
-  debugger
+
   return (
     <div className="container">
       <div className="row justify-content-center">
@@ -88,10 +110,11 @@ const PostDetails = () => {
             <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
             {
               (post.userProfileId === userProfileId)
-                ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
-                : ""
+                ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
+                : <Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button>
             }
           </ListGroup>
+          {commentDisplay()}
 
           <div className="p-3 my-2 rounded">
             <Toast isOpen={showToast}>

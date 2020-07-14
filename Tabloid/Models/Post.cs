@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tabloid.Models
@@ -31,6 +32,7 @@ namespace Tabloid.Models
 
         public UserProfile UserProfile { get; set; }
         public Category Category { get; set; }
+        public List<Comment> Comments { get; set; }
 
     }
 }

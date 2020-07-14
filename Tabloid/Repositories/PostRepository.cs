@@ -38,19 +38,51 @@ namespace Tabloid.Repositories
         {
             return _context.Post
                            .Include(p => p.UserProfile)
+                           .ThenInclude(up => up.UserType)
                            .Include(p => p.Category)
-                           .Where(p => p.IsApproved == true && p.PublishDateTime <= DateTime.Now)
-                           .FirstOrDefault(p => p.Id == id);
+                           .Include(p => p.Comments)
+                           .ThenInclude(c => c.UserProfile)
+                           .Select(p => new Post
+                           {
+                               Id = p.Id,
+                               Title = p.Title,
+                               Content = p.Content,
+                               ImageLocation = p.ImageLocation,
+                               CreateDateTime = p.CreateDateTime,
+                               PublishDateTime = p.PublishDateTime,
+                               IsApproved = p.IsApproved,
+                               CategoryId = p.CategoryId,
+                               UserProfileId = p.UserProfileId,
+                               UserProfile = p.UserProfile,
+                               Category = p.Category,
+                               Comments = (List<Comment>)p.Comments.OrderByDescending(c => c.CreateDateTime)
+                           }).FirstOrDefault(p => p.Id == id);
         }
 
-        public Post GetApprovedPostById(int id)
+            public Post GetApprovedPostById(int id)
         {
             return _context.Post
                            .Include(p => p.UserProfile)
+                           .ThenInclude(up => up.UserType)
                            .Include(p => p.Category)
-                           .Where(p => p.IsApproved == true || p.UserProfileId == p.UserProfile.Id)
-                           .Where(p => p.PublishDateTime <= DateTime.Now)
-                           .FirstOrDefault(p => p.Id == id);
+                           .Include(p => p.Comments)
+                           .ThenInclude(c => c.UserProfile)
+                           .Where(p => p.IsApproved == true && p.PublishDateTime <= DateTime.Now)
+                           .Select(p => new Post
+                           {
+                               Id = p.Id,
+                               Title = p.Title,
+                               Content = p.Content,
+                               ImageLocation = p.ImageLocation,
+                               CreateDateTime = p.CreateDateTime,
+                               PublishDateTime = p.PublishDateTime,
+                               IsApproved = p.IsApproved,
+                               CategoryId = p.CategoryId,
+                               UserProfileId = p.UserProfileId,
+                               UserProfile = p.UserProfile,
+                               Category = p.Category,
+                               Comments = (List<Comment>)p.Comments.OrderByDescending(c => c.CreateDateTime)
+                           }).FirstOrDefault(p => p.Id == id);
         }
 
         public void Add(Post post)
