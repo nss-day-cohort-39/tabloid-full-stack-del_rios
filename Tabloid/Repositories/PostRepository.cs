@@ -76,6 +76,11 @@ namespace Tabloid.Repositories
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
+        public PostTag GetPostTagById(int id)
+        {
+            return _context.PostTag
+                           .FirstOrDefault(pt => pt.Id == id);
+        }
 
         public void InsertTag(PostTag postTag)
         {
@@ -83,6 +88,12 @@ namespace Tabloid.Repositories
             _context.SaveChanges();
         }
 
+        public void RemoveTag(int id)
+        {
+            var postTag = GetPostTagById(id);
+            _context.PostTag.Remove(postTag);
+            _context.SaveChanges();
+        }
 
     }
 }

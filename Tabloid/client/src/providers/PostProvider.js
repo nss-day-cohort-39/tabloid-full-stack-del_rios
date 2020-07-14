@@ -53,6 +53,22 @@ export const PostProvider = (props) => {
         else { throw new Error("Unauthorized"); }
       }));
 
+  const removeTagFromPost = (id) => {
+    return getToken().then((token) =>
+      fetch(`/api/post/addtag/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((resp) => {
+        if (resp.ok) {
+          return;
+        }
+        else { throw new Error("Failed to delete post.") }
+      })
+    );
+  };
+
   //   const searchPosts = (search) => {
   //     return fetch(`api / post / search ? q = ${ search }`)
   //   .then(res => res.json())
@@ -125,7 +141,7 @@ export const PostProvider = (props) => {
 
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, addPost, addTagtoPost, getPost, getUserPost, deletePostById, editPost }}>
+    <PostContext.Provider value={{ posts, getAllPosts, addPost, addTagtoPost, removeTagFromPost, getPost, getUserPost, deletePostById, editPost }}>
       {props.children}
     </PostContext.Provider>
   );
