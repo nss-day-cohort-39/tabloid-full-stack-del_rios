@@ -108,11 +108,6 @@ const PostDetails = () => {
             <ListGroupItem><strong>Category</strong>: {post.category.name}</ListGroupItem>
             <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>
             <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
-            {
-              (post.userProfileId === userProfileId)
-                ? <ListGroupItem className="buttonContainer x"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
-                : ""
-            }
             <ListGroupItem><div className="postTags"> <strong>Tags: </strong>  {post.postTags.map(pt => <TagsOnPost key={pt.id} postTag={pt} />)}</div></ListGroupItem>
 
             {
@@ -120,6 +115,7 @@ const PostDetails = () => {
                 ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
                 : <Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button>
             }
+
             {
               (post.userProfileId === userProfileId)
                 ? <ListGroupItem><Link to={`/AddTagForm/post/${post.id}`}><h6>Manage Tags</h6></Link></ListGroupItem>
