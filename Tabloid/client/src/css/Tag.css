@@ -1,0 +1,39 @@
+.tagHeader {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.tagCard {
+    margin: .5rem 3rem;
+}
+
+.tagCardBody {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tagModalBody{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Tags in the post details */
+.postTags{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.individualTagContainer {
+    border: 1px rgb(207, 207, 207) solid;
+    background-color: whitesmoke;
+    border-radius: 1rem;
+    margin:0.2rem 0.5rem;
+    padding: 0rem 0.5rem;
+    min-width: 3rem;
+    text-align: center;
+}
+
+.individualTag {
+    margin: 0rem;
+}

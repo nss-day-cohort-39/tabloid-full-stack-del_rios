@@ -2,14 +2,13 @@ import React, { useEffect, useContext, useState } from "react";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
 import { CategoryContext } from "../../providers/CategoryProvider";
-import { useParams, useHistory } from "react-router-dom";
-import { Comment } from "../comments/Comment";
-import Post from "./Post";
+import { useParams, useHistory, Link } from "react-router-dom";
+import { TagsOnPost } from "../tags/TagsOnPost";
 import { CommentList } from "../comments/CommentList";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
-  const { getPost, deletePostById, editPost } = useContext(PostContext);
+  const { getPost, deletePostById, editPost, addTag } = useContext(PostContext);
   const { getAllCategories, categories } = useContext(CategoryContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();
@@ -87,6 +86,7 @@ const PostDetails = () => {
         <Button color="info" type="submit">
           EDIT POST
         </Button>
+
         <Button color="warning" onClick={toggleModal}>CANCEL EDIT</Button>{' '}
       </div>
     )
@@ -108,10 +108,18 @@ const PostDetails = () => {
             <ListGroupItem><strong>Category</strong>: {post.category.name}</ListGroupItem>
             <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>
             <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
+            <ListGroupItem><div className="postTags"> <strong>Tags: </strong>  {post.postTags.map(pt => <TagsOnPost key={pt.id} postTag={pt} />)}</div></ListGroupItem>
+
             {
               (post.userProfileId === userProfileId)
                 ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
                 : <Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button>
+            }
+
+            {
+              (post.userProfileId === userProfileId)
+                ? <ListGroupItem><Link to={`/AddTagForm/post/${post.id}`}><h6>Manage Tags</h6></Link></ListGroupItem>
+                : ""
             }
           </ListGroup>
           {commentDisplay()}
@@ -189,7 +197,7 @@ const PostDetails = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
