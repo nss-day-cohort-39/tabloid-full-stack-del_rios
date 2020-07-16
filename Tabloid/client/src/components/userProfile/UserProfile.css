@@ -1,0 +1,15 @@
+.userProfile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1rem;
+    border: 3px solid lightgray;
+    padding: 1rem;
+
+}
+
+.userprofile--detailsButton{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+

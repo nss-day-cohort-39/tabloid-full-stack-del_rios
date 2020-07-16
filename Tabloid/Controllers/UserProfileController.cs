@@ -40,7 +40,7 @@ namespace Tabloid.Controllers
         public IActionResult GetAllUsers()
         {
             var userProfile = GetCurrentUserProfile();
-            if(userProfile.UserTypeId == 1)
+            if(userProfile.UserTypeId == 2)
             {
             return Ok(_userProfileRepository.GetAll());
             }

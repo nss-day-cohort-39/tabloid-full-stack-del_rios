@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Tabloid.Data;
@@ -35,6 +36,11 @@ namespace Tabloid.Repositories
         {
             _context.Add(userProfile);
             _context.SaveChanges();
+        }
+
+        internal void Update(UserProfile userProfile)
+        {
+            throw new NotImplementedException();
         }
     }
 }
