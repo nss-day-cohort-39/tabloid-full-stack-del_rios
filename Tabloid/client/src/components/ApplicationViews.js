@@ -10,6 +10,7 @@ import { TagList } from "./tags/TagList";
 import { PostForm } from "./posts/PostForm";
 import { CategoryList } from "./categories/CategoryList";
 import { AddTagForm } from "./tags/AddTagForm";
+import { UserProfileDetails } from "./userProfile/UserProfileDetails";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -51,6 +52,10 @@ export default function ApplicationViews() {
 
         <Route path="/addTagForm/post/:id">
           {isLoggedIn ? <AddTagForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/userprofiles/:id">
+          {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
         </Route>
 
       </Switch>
