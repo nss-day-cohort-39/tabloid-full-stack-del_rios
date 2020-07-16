@@ -129,6 +129,36 @@ namespace Tabloid.Controllers
             return NoContent();
         }
 
+        //Controller methods that deal with post reactions begin here
+        [HttpPost("react")]
+        public IActionResult Post(PostReaction postReaction)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+
+            if (currentUserProfile != null)
+            {
+                return Unauthorized();
+            }
+
+            _postRepository.InsertReaction(postReaction);
+            return CreatedAtAction("Get", new { id = postReaction.Id }, postReaction);
+        }
+
+
+        [HttpDelete("addreaction/{id}")]
+        public IActionResult DeletePostReaction(int id)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+
+            if (currentUserProfile != null)
+            {
+                return Unauthorized();
+            }
+
+            _postRepository.RemoveReaction(id);
+            return NoContent();
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
