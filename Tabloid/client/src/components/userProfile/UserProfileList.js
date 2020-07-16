@@ -7,10 +7,9 @@ import { UserProfileContext } from "../../providers/UserProfileProvider";
 export const UserProfileList = () => {
 
     const { users, setUsers, getAllUserProfiles } = useContext(UserProfileContext)
-    const [filledUsers, setFilledUsers] = useState([])
 
     useEffect(() => {
-        getAllUserProfiles().then(console.log(users));
+        getAllUserProfiles();
     }, []);
 
 

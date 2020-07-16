@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button } from "reactstrap";
 import "./UserProfile.css"
 
 import { useHistory } from "react-router-dom";
+import { UserProfileContext } from '../../providers/UserProfileProvider';
 
 
 export const UserProfile = ({ userprofile }) => {
     const history = useHistory();
+
 
     const handleLink = () => { history.push(`/userprofiles/${userprofile.id}`); };
     return (
@@ -21,6 +23,7 @@ export const UserProfile = ({ userprofile }) => {
                     <Button onClick={e => {
                         e.preventDefault();
                         handleLink();
+
                     }
                     }
                         color="primary">View Profile</Button>
