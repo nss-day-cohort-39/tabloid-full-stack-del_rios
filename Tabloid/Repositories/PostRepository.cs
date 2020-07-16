@@ -151,7 +151,7 @@ namespace Tabloid.Repositories
 
         public void RemoveReaction(int id)
         {
-            var postReaction = GetReactionById(id);
+            var postReaction = GetPostReactionById(id);
             _context.PostReaction.Remove(postReaction);
             _context.SaveChanges();
         }

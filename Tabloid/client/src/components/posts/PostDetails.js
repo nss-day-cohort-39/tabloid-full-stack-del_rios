@@ -5,10 +5,12 @@ import { CategoryContext } from "../../providers/CategoryProvider";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { TagsOnPost } from "../tags/TagsOnPost";
 import { CommentList } from "../comments/CommentList";
+import "../../css/Tag.css"
+import "../../css/Reaction.css"
 
 const PostDetails = () => {
   const [post, setPost] = useState();
-  const { getPost, deletePostById, editPost, addTag } = useContext(PostContext);
+  const { getPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost } = useContext(PostContext);
   const { getAllCategories, categories } = useContext(CategoryContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();
@@ -92,6 +94,26 @@ const PostDetails = () => {
     )
   }
 
+  // Code for reacting to posts
+  const currentPostReactions = post.postReactions.filter(pr => pr.PostId === post.Id)
+
+  // Getting the correct number of each reaction for the current post
+  const hahaReact = currentPostReactions.filter(pr => pr.reactionId === 1)
+  const wowReact = currentPostReactions.filter(pr => pr.reactionId === 2)
+  const sadReact = currentPostReactions.filter(pr => pr.reactionId === 3)
+
+  const hahaRelationship = post.postReactions.find(pr => pr.reactionId === 1 && pr.userProfileId === userProfileId)
+
+  const addReaction = (reactionId) => {
+    addReactiontoPost({
+      PostId: parseInt(id),
+      ReactionId: reactionId,
+      UserProfileId: userProfileId
+    }).then(() => {
+      getPost(parseInt(id)).then(setPost)
+    })
+  }
+
   const unformatedDate = post.publishDateTime.split("T")[0];
   const [year, month, day] = unformatedDate.split("-");
   const formatedDate = month + "/" + day + "/" + year;
@@ -116,11 +138,30 @@ const PostDetails = () => {
                 : <Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button>
             }
 
+            <ListGroupItem><div className="postReactions">
+
+              <div> <img src="https://i.imgur.com/q28cZb2.png" onClick={
+                evt => {
+                  evt.preventDefault()
+                  {
+                    (!!post.postReactions.find(pr => pr.reactionId !== 1 && pr.userProfileId === userProfileId))
+                      ? addReaction(1)
+                      : removeReactionFromPost(hahaRelationship.id).then(() => {
+                        getPost(parseInt(id)).then(setPost)
+                      })
+                  }
+                }}></img> {hahaReact.length} </div>
+              <div> <img src="https://i.imgur.com/Uqy4qJQ.png" ></img> 0 </div>
+              <div> <img src="https://i.imgur.com/9kC662e.png" ></img> 0 </div>
+            </div>
+            </ListGroupItem>
+
             {
               (post.userProfileId === userProfileId)
                 ? <ListGroupItem><Link to={`/AddTagForm/post/${post.id}`}><h6>Manage Tags</h6></Link></ListGroupItem>
                 : ""
             }
+
           </ListGroup>
           {commentDisplay()}
 
