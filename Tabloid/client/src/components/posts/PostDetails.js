@@ -98,11 +98,14 @@ const PostDetails = () => {
   const currentPostReactions = post.postReactions.filter(pr => pr.PostId === post.Id)
 
   // Getting the correct number of each reaction for the current post
-  const hahaReact = currentPostReactions.filter(pr => pr.reactionId === 1)
-  const wowReact = currentPostReactions.filter(pr => pr.reactionId === 2)
-  const sadReact = currentPostReactions.filter(pr => pr.reactionId === 3)
+  const hahaReacts = currentPostReactions.filter(pr => pr.reactionId === 1).length
+  const wowReacts = currentPostReactions.filter(pr => pr.reactionId === 2).length
+  const sadReacts = currentPostReactions.filter(pr => pr.reactionId === 3).length
 
+  // Finds if there is a reaction on this post or not
   const hahaRelationship = post.postReactions.find(pr => pr.reactionId === 1 && pr.userProfileId === userProfileId)
+  const wowRelationship = post.postReactions.find(pr => pr.reactionId === 2 && pr.userProfileId === userProfileId)
+  const sadRelationship = post.postReactions.find(pr => pr.reactionId === 3 && pr.userProfileId === userProfileId)
 
   const addReaction = (reactionId) => {
     addReactiontoPost({
@@ -144,15 +147,39 @@ const PostDetails = () => {
                 evt => {
                   evt.preventDefault()
                   {
-                    (!!post.postReactions.find(pr => pr.reactionId !== 1 && pr.userProfileId === userProfileId))
+                    (!post.postReactions.find(pr => pr.reactionId === 1 && pr.userProfileId === userProfileId))
                       ? addReaction(1)
                       : removeReactionFromPost(hahaRelationship.id).then(() => {
                         getPost(parseInt(id)).then(setPost)
                       })
                   }
-                }}></img> {hahaReact.length} </div>
-              <div> <img src="https://i.imgur.com/Uqy4qJQ.png" ></img> 0 </div>
-              <div> <img src="https://i.imgur.com/9kC662e.png" ></img> 0 </div>
+                }}></img> {hahaReacts} </div>
+
+              <div> <img src="https://i.imgur.com/Uqy4qJQ.png" onClick={
+                evt => {
+                  evt.preventDefault()
+                  {
+                    (!post.postReactions.find(pr => pr.reactionId === 2 && pr.userProfileId === userProfileId))
+                      ? addReaction(2)
+                      : removeReactionFromPost(wowRelationship.id).then(() => {
+                        getPost(parseInt(id)).then(setPost)
+                      })
+                  }
+                }}></img> {wowReacts} </div>
+
+              <div> <img src="https://i.imgur.com/9kC662e.png" onClick={
+                evt => {
+                  evt.preventDefault()
+                  {
+                    (!post.postReactions.find(pr => pr.reactionId === 3 && pr.userProfileId === userProfileId))
+                      ? addReaction(3)
+                      : removeReactionFromPost(sadRelationship.id).then(() => {
+                        getPost(parseInt(id)).then(setPost)
+                      })
+                  }
+                }}></img> {sadReacts} </div>
+
+
             </div>
             </ListGroupItem>
 
