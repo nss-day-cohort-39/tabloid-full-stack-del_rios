@@ -31,6 +31,7 @@ export const PostProvider = (props) => {
         },
         body: JSON.stringify(post),
       }).then(resp => {
+        debugger
         if (resp.ok) {
           return resp.json();
         }
