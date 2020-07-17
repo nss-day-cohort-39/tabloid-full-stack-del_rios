@@ -17,6 +17,7 @@ export const PostForm = () => {
     const { addPost } = useContext(PostContext);
     const { getAllCategories, categories } = useContext(CategoryContext)
     const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
+    const userType = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
     const [formState, setformState] = useState({ userProfileId: +userProfileId });
 
     const handleUserInput = (e) => {
@@ -33,10 +34,13 @@ export const PostForm = () => {
     const history = useHistory();
 
     const submit = (e) => {
-        e.preventDefault();
-
-        debugger
-        formState.isApproved = true;
+        e.preventDefault()
+        if(userType == 1)
+        {
+            formState.isApproved = true;
+        } else {
+            formState.isApproved = false;
+        }
         formState.categoryId = +formState.categoryId;
 
         addPost(formState).then((p) => {
