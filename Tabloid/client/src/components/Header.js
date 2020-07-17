@@ -16,9 +16,15 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   let userProfileId = 0;
+  let userTypeId = 0;
+
+
 
   if (isLoggedIn === true) {
     userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
+    userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
+
+
   }
 
   return (
@@ -46,6 +52,7 @@ export default function Header() {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/tags">Tag Management</NavLink>
                 </NavItem>
+                {(userTypeId === 1) ? <NavItem><NavLink tag={RRNavLink} to="/userprofiles">User Profiles</NavLink></NavItem> : ""}
               </>
             }
           </Nav>

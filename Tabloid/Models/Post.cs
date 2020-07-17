@@ -19,7 +19,7 @@ namespace Tabloid.Models
         [Required]
         public DateTime CreateDateTime { get; set; }
 
-        public DateTime PublishDateTime { get; set; }
+        public DateTime? PublishDateTime { get; set; }
 
         [Required]
         public bool IsApproved { get; set; }
