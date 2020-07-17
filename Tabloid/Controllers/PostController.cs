@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System.Security.Claims;
 using Tabloid.Data;
 using Tabloid.Models;
@@ -57,8 +59,19 @@ namespace Tabloid.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Post post)
+        public IActionResult Post(Post post, IFormFile file)
         {
+
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+            if (file.Length > 0)
+            {
+                using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+            }
+            post.ImageLocation = $"images/{file.FileName}";
+
             _postRepository.Add(post);
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
@@ -148,7 +161,9 @@ namespace Tabloid.Controllers
             return NoContent();
         }
 
-        private UserProfile GetCurrentUserProfile()
+
+
+            private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
