@@ -90,7 +90,7 @@ namespace Tabloid.Repositories
                                PostTags = p.PostTags
                            }).FirstOrDefault(p => p.Id == id);
         }
-
+        //
         public void Add(Post post)
         {
             post.CreateDateTime = DateTime.Now;
@@ -107,13 +107,29 @@ namespace Tabloid.Repositories
         public void Delete(int id)
         {
             var post = GetById(id);
+            var relatedTags = GetPostTagByPostId(id);
+            if (relatedTags != null)
+            {
+                _context.PostTag.RemoveRange(relatedTags);
+            }
+            
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
+        
+        //made method to get pt by post id. then added it to the post delete method and
+        // past in the post id.
         public PostTag GetPostTagById(int id)
         {
             return _context.PostTag
                            .FirstOrDefault(pt => pt.Id == id);
+        }
+
+        public PostTag GetPostTagByPostId(int id)
+        {
+           return  _context.PostTag
+                .FirstOrDefault(pt => pt.PostId == id);
+
         }
 
         public void InsertTag(PostTag postTag)
