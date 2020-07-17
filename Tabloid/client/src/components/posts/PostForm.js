@@ -35,7 +35,6 @@ export const PostForm = () => {
     const submit = (e) => {
         e.preventDefault();
 
-        debugger
         formState.isApproved = true;
         formState.categoryId = +formState.categoryId;
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Security.Claims;
 using Tabloid.Data;
@@ -80,8 +79,8 @@ namespace Tabloid.Controllers
                 return BadRequest();
                 }
 
-                _userProfileRepository.Update(userProfile);
-                return NoContent();               
+                _userProfileRepository.Update(userProfile, currentUserProfile);
+                return NoContent();
             }
             else
             {

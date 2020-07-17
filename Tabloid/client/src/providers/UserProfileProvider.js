@@ -24,8 +24,12 @@ export function UserProfileProvider(props) {
     return firebase.auth().signInWithEmailAndPassword(email, pw)
       .then((signInResponse) => getUserProfile(signInResponse.user.uid))
       .then((userProfile) => {
-        sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
-        setIsLoggedIn(true);
+        if (userProfile.isActive) {
+          sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
+          setIsLoggedIn(true);
+        } else {
+          alert("User does not exist.");
+        }
       });
   };
 
@@ -91,8 +95,25 @@ export function UserProfileProvider(props) {
       }).then(resp => resp.json()));
   };
 
+  const editUserProfile = (id, userProfile) => {
+    return getToken().then((token) =>
+      fetch(apiUrl + `/updateuserprofile/${id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userProfile),
+      }).then(resp => {
+        if (resp.ok) {
+          return;
+        }
+        throw new Error("Unauthorized");
+      }))
+  };
+
   return (
-    <UserProfileContext.Provider value={{ isLoggedIn, login, logout, register, getToken, getAllUserProfiles, getUserProfile, getUserProfileById, users, setUsers, selectedUser, setSelectedUser }}>
+    <UserProfileContext.Provider value={{ isLoggedIn, login, logout, register, getToken, getAllUserProfiles, getUserProfile, getUserProfileById, users, setUsers, selectedUser, setSelectedUser, editUserProfile }}>
       {isFirebaseReady
         ? props.children
         : <Spinner className="app-spinner dark" />}

@@ -31,7 +31,6 @@ export const PostProvider = (props) => {
         },
         body: JSON.stringify(post),
       }).then(resp => {
-        debugger
         if (resp.ok) {
           return resp.json();
         }
@@ -69,12 +68,6 @@ export const PostProvider = (props) => {
       })
     );
   };
-
-  //   const searchPosts = (search) => {
-  //     return fetch(`api / post / search ? q = ${ search }`)
-  //   .then(res => res.json())
-  //   .then(setPosts)
-  //   };
 
   const getPost = (id) => {
     return getToken().then((token) =>
