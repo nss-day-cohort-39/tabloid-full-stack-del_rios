@@ -1,14 +1,18 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
+import { ReactionContext } from "../../providers/ReactionProvider";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { TagsOnPost } from "../tags/TagsOnPost";
 import { CommentList } from "../comments/CommentList";
+import { Reactions } from "./Reactions";
+import "../../css/Tag.css"
+import "../../css/Reaction.css"
 
 const PostDetails = () => {
   const [post, setPost] = useState();
-  const { getPost, deletePostById, editPost, addTag } = useContext(PostContext);
+  const { getPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost } = useContext(PostContext);
   const { getAllCategories, categories } = useContext(CategoryContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();
@@ -16,6 +20,7 @@ const PostDetails = () => {
   const [displayComment, setDisplayComment] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [formState, setformState] = useState({});
+  const { getAllReactions, reactions } = useContext(ReactionContext)
 
   const toggleModal = () => setShowModal(!showModal);
   const toggleToast = () => setShowToast(!showToast);
@@ -28,7 +33,7 @@ const PostDetails = () => {
   }
 
   const commentDisplay = () => {
-    if (displayComment && post.comments.length > 0) {
+    if (displayComment) {
       return (
         <div>
           <CommentList comments={post.comments} setPost={setPost} postId={post.id} />
@@ -38,12 +43,8 @@ const PostDetails = () => {
         </div>
       )
     }
-    else if (displayComment && post.comments.length === 0) {
-      return (
-        <div><h1>AINT NUTTIN HERE BITCH!!!!!!</h1></div>
-      )
-    }
   }
+
   // Use this hook to allow us to programatically redirect users
   const history = useHistory();
 
@@ -53,6 +54,10 @@ const PostDetails = () => {
 
   useEffect(() => {
     getAllCategories();
+  }, []);
+
+  useEffect(() => {
+    getAllReactions();
   }, []);
 
   useEffect(() => {
@@ -127,11 +132,15 @@ const PostDetails = () => {
                 : <Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button>
             }
 
+
+            <ListGroupItem><div className="postReactions">{reactions.map(r => <Reactions key={r.id} reaction={r} />)}</div></ListGroupItem>
+
             {
               (post.userProfileId === userProfileId)
                 ? <ListGroupItem><Link to={`/AddTagForm/post/${post.id}`}><h6>Manage Tags</h6></Link></ListGroupItem>
                 : ""
             }
+
           </ListGroup>
           {commentDisplay()}
 

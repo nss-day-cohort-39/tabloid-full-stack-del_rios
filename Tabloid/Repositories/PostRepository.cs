@@ -44,6 +44,8 @@ namespace Tabloid.Repositories
                            .ThenInclude(pt => pt.Tag)
                            .Include(p => p.Comments)
                            .ThenInclude(c => c.UserProfile)
+                           .Include(p => p.PostReactions)
+                           .ThenInclude(pr => pr.Reaction)
                            .Select(p => new Post
                            {
                                Id = p.Id,
@@ -58,7 +60,8 @@ namespace Tabloid.Repositories
                                UserProfile = p.UserProfile,
                                Category = p.Category,
                                Comments = (List<Comment>)p.Comments.OrderByDescending(c => c.CreateDateTime),
-                               PostTags = p.PostTags
+                               PostTags = p.PostTags,
+                               PostReactions = p.PostReactions
                            }).FirstOrDefault(p => p.Id == id);
         }
 
@@ -72,6 +75,8 @@ namespace Tabloid.Repositories
                            .ThenInclude(pt => pt.Tag)
                            .Include(p => p.Comments)
                            .ThenInclude(c => c.UserProfile)
+                           .Include(p => p.PostReactions)
+                           .ThenInclude(pr => pr.Reaction)
                            .Where(p => p.IsApproved == true && p.PublishDateTime <= DateTime.Now)
                            .Select(p => new Post
                            {
@@ -87,7 +92,8 @@ namespace Tabloid.Repositories
                                UserProfile = p.UserProfile,
                                Category = p.Category,
                                Comments = (List<Comment>)p.Comments.OrderByDescending(c => c.CreateDateTime),
-                               PostTags = p.PostTags
+                               PostTags = p.PostTags,
+                               PostReactions = p.PostReactions
                            }).FirstOrDefault(p => p.Id == id);
         }
         //
@@ -112,11 +118,12 @@ namespace Tabloid.Repositories
             {
                 _context.PostTag.RemoveRange(relatedTags);
             }
-            
+
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
-        
+        //Post tag repo methods start here
+
         //made method to get pt by post id. then added it to the post delete method and
         // past in the post id.
         public PostTag GetPostTagById(int id)
@@ -127,8 +134,8 @@ namespace Tabloid.Repositories
 
         public PostTag GetPostTagByPostId(int id)
         {
-           return  _context.PostTag
-                .FirstOrDefault(pt => pt.PostId == id);
+            return _context.PostTag
+                 .FirstOrDefault(pt => pt.PostId == id);
 
         }
 
@@ -142,6 +149,26 @@ namespace Tabloid.Repositories
         {
             var postTag = GetPostTagById(id);
             _context.PostTag.Remove(postTag);
+            _context.SaveChanges();
+        }
+
+        //Post reaction repo methods start here
+        public PostReaction GetPostReactionById(int id)
+        {
+            return _context.PostReaction
+                           .FirstOrDefault(pr => pr.Id == id);
+        }
+
+        public void InsertReaction(PostReaction postReaction)
+        {
+            _context.PostReaction.Add(postReaction);
+            _context.SaveChanges();
+        }
+
+        public void RemoveReaction(int id)
+        {
+            var postReaction = GetPostReactionById(id);
+            _context.PostReaction.Remove(postReaction);
             _context.SaveChanges();
         }
 
