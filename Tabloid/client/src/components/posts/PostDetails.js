@@ -92,9 +92,14 @@ const PostDetails = () => {
     )
   }
 
-  const unformatedDate = post.publishDateTime.split("T")[0];
-  const [year, month, day] = unformatedDate.split("-");
-  const formatedDate = month + "/" + day + "/" + year;
+  let formatedDate = null;
+  let unformatedDate = null;
+
+  if (post.publishDateTime != null) {
+    unformatedDate = post.publishDateTime.split("T")[0];
+    const [year, month, day] = unformatedDate.split("-");
+    formatedDate = month + "/" + day + "/" + year;
+  }
 
 
   return (
@@ -103,12 +108,16 @@ const PostDetails = () => {
         <div className="col-sm-12 col-lg-6">
           <ListGroup>
             <ListGroupItem> <strong>Title: </strong>{post.title}</ListGroupItem>
-           { (post.imageLocation != null)
-           ? <ListGroupItem> <CardImg top src={post.imageLocation} alt={post.title} /></ListGroupItem>
-           :"" }
-            <ListGroupItem>{post.content}</ListGroupItem>
+            {(post.imageLocation != null)
+              ? <ListGroupItem> <CardImg top src={post.imageLocation} alt={post.title} /></ListGroupItem>
+              : ""}
+            <ListGroupItem><strong>Content: </strong>{post.content}</ListGroupItem>
             <ListGroupItem><strong>Category</strong>: {post.category.name}</ListGroupItem>
-            <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>
+            {
+              (post.publishDateTime == null)
+                ? <ListGroupItem><strong>Posted: </strong>No publication date.</ListGroupItem>
+                : <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>
+            }
             <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
             <ListGroupItem><div className="postTags"> <strong>Tags: </strong>  {post.postTags.map(pt => <TagsOnPost key={pt.id} postTag={pt} />)}</div></ListGroupItem>
 
