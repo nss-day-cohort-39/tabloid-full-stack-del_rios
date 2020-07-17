@@ -1,11 +1,11 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { Card, CardBody, Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { TagContext } from "../../providers/TagProvider";
 import "../../css/Tag.css"
 
 export const Tag = ({ tag }) => {
 
-    const { tags, updateTag, deleteTag } = useContext(TagContext)
+    const { updateTag, deleteTag } = useContext(TagContext)
     const name = useRef()
 
     const [modal, setModal] = useState(false)

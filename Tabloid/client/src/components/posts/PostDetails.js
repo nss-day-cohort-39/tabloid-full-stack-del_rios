@@ -37,9 +37,6 @@ const PostDetails = () => {
       return (
         <div>
           <CommentList comments={post.comments} setPost={setPost} postId={post.id} />
-          {/* {
-            post.comments.map(c => <Comment key={c.id} comment={c} setPost={setPost} />)
-          } */}
         </div>
       )
     }
@@ -119,7 +116,7 @@ const PostDetails = () => {
             <ListGroupItem><strong>Content: </strong>{post.content}</ListGroupItem>
             <ListGroupItem><strong>Category</strong>: {post.category.name}</ListGroupItem>
             {
-              (post.publishDateTime == null)
+              (post.publishDateTime === null)
                 ? <ListGroupItem><strong>Posted: </strong>No publication date.</ListGroupItem>
                 : <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>
             }

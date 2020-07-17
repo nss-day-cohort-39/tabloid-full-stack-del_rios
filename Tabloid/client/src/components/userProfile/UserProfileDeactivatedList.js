@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Button } from "reactstrap";
 import { UserProfile } from "./UserProfile";
@@ -14,7 +14,7 @@ export const UserProfileDeactivatedList = () => {
         getAllUserProfiles();
     }, []);
 
-    const filteredUsers = users.filter(u => u.isActive == false);
+    const filteredUsers = users.filter(u => u.isActive === false);
 
     return (
         <div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardImg, CardBody, CardFooter } from "reactstrap";
+import { Card, CardBody, CardFooter } from "reactstrap";
 import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Button, Container, ListGroup, ListGroupItem, Toast, ToastBody, ToastHeader } from "reactstrap";
-import { useParams, useHistory, Route, Redirect } from "react-router-dom";
+import { useParams, useHistory, Redirect } from "react-router-dom";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 export const UserProfileDetails = () => {
@@ -96,22 +96,22 @@ export const UserProfileDetails = () => {
                             toggleInitializeToast();
                         }} color="primary">No, Cancel</Button>
                         {
-                            (process == "deactivate")
+                            (process === "deactivate")
                                 ? <Button onClick={deactivateUser} color="danger">Yes, Deactivate {userProfile.displayName}</Button>
                                 : ""
                         }
                         {
-                            (process == "reactivate")
+                            (process === "reactivate")
                                 ? <Button onClick={reactivateUser} color="warning">Yes, Reactivate {userProfile.displayName}</Button>
                                 : ""
                         }
                         {
-                            (process == "promote")
+                            (process === "promote")
                                 ? <Button onClick={promoteUser} color="warning">Yes, Promote {userProfile.displayName}</Button>
                                 : ""
                         }
                         {
-                            (process == "demote")
+                            (process === "demote")
                                 ? <Button onClick={demoteUser} color="danger">Yes, Demote {userProfile.displayName}</Button>
                                 : ""
                         }
@@ -121,12 +121,13 @@ export const UserProfileDetails = () => {
         )
     }
 
+    debugger
     const userProfileTypeCheck = () => {
-        if (userTypeId == 0) {
+        if (userTypeId === 0) {
             return (
                 <div>Loading</div>
             )
-        } else if (userTypeId == 1) {
+        } else if (userTypeId === 1) {
             return (
                 <div className="col-sm-12 col-lg-6">
                     {
@@ -158,7 +159,7 @@ export const UserProfileDetails = () => {
                     </ListGroup>
                     <div className="buttonContainer">
                         {
-                            (userProfile.userTypeId == 1)
+                            (userProfile.userTypeId === 1)
                                 ? <Button color="primary" onClick={(e) => {
                                     e.preventDefault();
                                     invokeToast("demote");
@@ -169,7 +170,7 @@ export const UserProfileDetails = () => {
                                 }}>Promote to Admin</Button>
                         }
                         {
-                            (userProfile.isActive == 1)
+                            (userProfile.isActive === true)
                                 ? <Button color="primary" onClick={(e) => {
                                     e.preventDefault();
                                     invokeToast("deactivate");
@@ -180,7 +181,7 @@ export const UserProfileDetails = () => {
                                 }}>Reactivate Account</Button>
                         }
                         {
-                            (userProfile.isActive == 1)
+                            (userProfile.isActive === true)
                                 ? <Button color="success" onClick={() => {
                                     history.push("/userprofiles");
                                 }}>Return to User Profile List</Button>
@@ -191,7 +192,7 @@ export const UserProfileDetails = () => {
                     </div>
                 </div>
             )
-        } else if (userTypeId == 2) {
+        } else if (userTypeId === 2) {
             return (
                 <Redirect to="/" />
             )
