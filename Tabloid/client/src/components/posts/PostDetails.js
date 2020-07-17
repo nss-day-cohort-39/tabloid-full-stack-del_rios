@@ -103,7 +103,9 @@ const PostDetails = () => {
         <div className="col-sm-12 col-lg-6">
           <ListGroup>
             <ListGroupItem> <strong>Title: </strong>{post.title}</ListGroupItem>
-            <ListGroupItem> <CardImg top src={post.imageLocation} alt={post.title} /></ListGroupItem>
+           { (post.imageLocation != null)
+           ? <ListGroupItem> <CardImg top src={post.imageLocation} alt={post.title} /></ListGroupItem>
+           :"" }
             <ListGroupItem>{post.content}</ListGroupItem>
             <ListGroupItem><strong>Category</strong>: {post.category.name}</ListGroupItem>
             <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>

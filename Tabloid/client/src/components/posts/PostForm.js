@@ -11,13 +11,15 @@ import {
 import { PostContext } from "../../providers/PostProvider";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import { useHistory } from "react-router-dom";
+ 
 
 export const PostForm = () => {
     const { addPost } = useContext(PostContext);
     const { getAllCategories, categories } = useContext(CategoryContext)
     const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
-    const [formState, setformState] = useState({ userProfileId: +userProfileId });
-
+    let date = new Date().toLocaleString().replace(",","").replace(/:.. /," ");
+    const [formState, setformState] = useState({ userProfileId: +userProfileId, publishDateTime: date});
+   
     const handleUserInput = (e) => {
         const updatedState = { ...formState }
         updatedState[e.target.id] = e.target.value
@@ -34,6 +36,7 @@ export const PostForm = () => {
     const submit = (e) => {
         e.preventDefault();
 
+
         formState.isApproved = true;
         formState.categoryId = +formState.categoryId;
 
@@ -41,6 +44,8 @@ export const PostForm = () => {
             history.push(`/post/${p.id}`);
         });
     };
+
+    
 
     return (
         <div className="container pt-4">
@@ -78,10 +83,11 @@ export const PostForm = () => {
                             </FormGroup>
                             <FormGroup>
                                 <Label>Category:</Label>
-                                <select id="categoryId" onChange={handleUserInput}>
+                                <select id="categoryId" required onChange={handleUserInput}>
+                                <option value=""> Choose Category</option>
                                     {
                                         categories.map(c => {
-                                            return <option key={c.id} value={c.id}>{c.name}</option>
+                                            return <option key={c.id}value={c.id}>{c.name}</option>
                                         })
                                     }
                                 </select>
