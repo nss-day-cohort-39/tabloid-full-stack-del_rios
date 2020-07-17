@@ -1,10 +1,12 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
+import { ReactionContext } from "../../providers/ReactionProvider";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { TagsOnPost } from "../tags/TagsOnPost";
 import { CommentList } from "../comments/CommentList";
+import { Reactions } from "./Reactions";
 import "../../css/Tag.css"
 import "../../css/Reaction.css"
 
@@ -18,6 +20,7 @@ const PostDetails = () => {
   const [displayComment, setDisplayComment] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [formState, setformState] = useState({});
+  const { getAllReactions, reactions } = useContext(ReactionContext)
 
   const toggleModal = () => setShowModal(!showModal);
   const toggleToast = () => setShowToast(!showToast);
@@ -58,6 +61,10 @@ const PostDetails = () => {
   }, []);
 
   useEffect(() => {
+    getAllReactions();
+  }, []);
+
+  useEffect(() => {
     setformState(post);
   }, [post]);
 
@@ -94,29 +101,6 @@ const PostDetails = () => {
     )
   }
 
-  // Code for reacting to posts
-  const currentPostReactions = post.postReactions.filter(pr => pr.PostId === post.Id)
-
-  // Getting the correct number of each reaction for the current post
-  const hahaReacts = currentPostReactions.filter(pr => pr.reactionId === 1).length
-  const wowReacts = currentPostReactions.filter(pr => pr.reactionId === 2).length
-  const sadReacts = currentPostReactions.filter(pr => pr.reactionId === 3).length
-
-  // Finds if there is a reaction on this post or not
-  const hahaRelationship = post.postReactions.find(pr => pr.reactionId === 1 && pr.userProfileId === userProfileId)
-  const wowRelationship = post.postReactions.find(pr => pr.reactionId === 2 && pr.userProfileId === userProfileId)
-  const sadRelationship = post.postReactions.find(pr => pr.reactionId === 3 && pr.userProfileId === userProfileId)
-
-  const addReaction = (reactionId) => {
-    addReactiontoPost({
-      PostId: parseInt(id),
-      ReactionId: reactionId,
-      UserProfileId: userProfileId
-    }).then(() => {
-      getPost(parseInt(id)).then(setPost)
-    })
-  }
-
   const unformatedDate = post.publishDateTime.split("T")[0];
   const [year, month, day] = unformatedDate.split("-");
   const formatedDate = month + "/" + day + "/" + year;
@@ -141,47 +125,8 @@ const PostDetails = () => {
                 : <Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button>
             }
 
-            <ListGroupItem><div className="postReactions">
 
-              <div> <img src="https://i.imgur.com/q28cZb2.png" onClick={
-                evt => {
-                  evt.preventDefault()
-                  {
-                    (!post.postReactions.find(pr => pr.reactionId === 1 && pr.userProfileId === userProfileId))
-                      ? addReaction(1)
-                      : removeReactionFromPost(hahaRelationship.id).then(() => {
-                        getPost(parseInt(id)).then(setPost)
-                      })
-                  }
-                }}></img> {hahaReacts} </div>
-
-              <div> <img src="https://i.imgur.com/Uqy4qJQ.png" onClick={
-                evt => {
-                  evt.preventDefault()
-                  {
-                    (!post.postReactions.find(pr => pr.reactionId === 2 && pr.userProfileId === userProfileId))
-                      ? addReaction(2)
-                      : removeReactionFromPost(wowRelationship.id).then(() => {
-                        getPost(parseInt(id)).then(setPost)
-                      })
-                  }
-                }}></img> {wowReacts} </div>
-
-              <div> <img src="https://i.imgur.com/9kC662e.png" onClick={
-                evt => {
-                  evt.preventDefault()
-                  {
-                    (!post.postReactions.find(pr => pr.reactionId === 3 && pr.userProfileId === userProfileId))
-                      ? addReaction(3)
-                      : removeReactionFromPost(sadRelationship.id).then(() => {
-                        getPost(parseInt(id)).then(setPost)
-                      })
-                  }
-                }}></img> {sadReacts} </div>
-
-
-            </div>
-            </ListGroupItem>
+            <ListGroupItem><div className="postReactions">{reactions.map(r => <Reactions key={r.id} reaction={r} />)}</div></ListGroupItem>
 
             {
               (post.userProfileId === userProfileId)
