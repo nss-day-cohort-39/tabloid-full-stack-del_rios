@@ -7,6 +7,7 @@ import ApplicationViews from "./components/ApplicationViews";
 import { PostProvider } from './providers/PostProvider';
 import { TagProvider } from './providers/TagProvider';
 import { CommentProvider } from './providers/CommentProvider';
+import { ReactionProvider } from './providers/ReactionProvider';
 
 function App() {
   return (
@@ -16,8 +17,10 @@ function App() {
           <PostProvider>
             <TagProvider>
               <CommentProvider>
-                <Header />
-                <ApplicationViews />
+                <ReactionProvider>
+                  <Header />
+                  <ApplicationViews />
+                </ReactionProvider>
               </CommentProvider>
             </TagProvider>
           </PostProvider>
