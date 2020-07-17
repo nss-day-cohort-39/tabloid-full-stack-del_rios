@@ -39,6 +39,7 @@ export const CommentList = ({ comments, setPost, postId }) => {
                         e.preventDefault();
                         setCommentInput(true);
                         setCommentButton(false);
+
                     }
                     }
                         color="success">Create Comment</Button>
@@ -90,13 +91,24 @@ export const CommentList = ({ comments, setPost, postId }) => {
         }
     }
 
-    return (
-        <div>
-            <div className="buttonContainer">{displayCommentButton()}</div>
-            <div>{displayCommentInput()}</div>
-            {
-                comments.map(c => <Comment key={c.id} comment={c} setPost={setPost} />)
-            }
-        </div>
-    )
+    if (comments.length) {
+        return (
+            <div>
+                <div className="buttonContainer">{displayCommentButton()}</div>
+                <div>{displayCommentInput()}</div>
+                {
+                    comments.map(c => <Comment key={c.id} comment={c} setPost={setPost} />)
+                }
+            </div>
+        )
+    }
+    else {
+        return (
+            <>
+                <div>{displayCommentInput()}</div>
+                <div>{displayCommentButton()}</div>
+                <div>There are no comments to display</div>
+            </>
+        )
+    }
 }
