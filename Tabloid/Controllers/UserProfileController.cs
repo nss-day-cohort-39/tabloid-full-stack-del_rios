@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
+using System.Security.Claims;
 using Tabloid.Data;
 using Tabloid.Models;
 using Tabloid.Repositories;
@@ -23,6 +24,20 @@ namespace Tabloid.Controllers
             return Ok(_userProfileRepository.GetByFirebaseUserId(firebaseUserId));
         }
 
+        [HttpGet("getuserprofilebyid/{id}")]
+        public IActionResult GetUserProfileById(int id)
+        {
+            var userProfile = GetCurrentUserProfile();
+            if (userProfile.UserTypeId == 1)
+            {
+                return Ok(_userProfileRepository.GetByUserId(id));
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
         [HttpPost]
         public IActionResult Post(UserProfile userProfile)
         {
@@ -33,6 +48,45 @@ namespace Tabloid.Controllers
                 nameof(GetUserProfile),
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
+        }
+
+        [HttpGet("getallusers")]
+        public IActionResult GetAllUsers()
+        {
+            var userProfile = GetCurrentUserProfile();
+            if(userProfile.UserTypeId == 1)
+            {
+            return Ok(_userProfileRepository.GetAll());
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
+        [HttpPut("updateuserprofile/{id}")]
+        public IActionResult UpdateUserProfile(UserProfile userProfile, int id)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            if (currentUserProfile.UserTypeId == 1)
+            {
+                if (id != userProfile.Id)
+                {
+                return BadRequest();
+                }
+
+                _userProfileRepository.Update(userProfile);
+                return NoContent();               
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
     }
 }

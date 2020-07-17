@@ -33,3 +33,21 @@ p {
 .commentInfoContainer > p {
   margin: auto;
 }
+
+.userInfoContainer {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.userInfoContainer > p {
+  margin: auto;
+}
+
+.userProfileAvatar {
+  width: 100rem;
+  max-width: 350px;
+}
+
+.avatarContainer {
+  text-align: center;
+}

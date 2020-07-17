@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Tabloid.Data;
 using Tabloid.Models;
@@ -21,10 +23,31 @@ namespace Tabloid.Repositories
                        .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
         }
 
+        public UserProfile GetByUserId(int id)
+        {
+            return _context.UserProfile
+                       .Include(up => up.UserType)
+                       .FirstOrDefault(up => up.Id == id);
+        }
+
+        public List<UserProfile> GetAll()
+        {
+            return _context.UserProfile
+                .Include(up => up.UserType)
+                .OrderBy(up => up.DisplayName)
+                .ToList();
+                
+        }
+
         public void Add(UserProfile userProfile)
         {
             _context.Add(userProfile);
             _context.SaveChanges();
+        }
+
+        internal void Update(UserProfile userProfile)
+        {
+            throw new NotImplementedException();
         }
     }
 }
