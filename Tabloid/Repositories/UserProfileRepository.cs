@@ -47,7 +47,7 @@ namespace Tabloid.Repositories
 
         public void Update(UserProfile userProfile, UserProfile currentUserProfile)
         {
-            int ActiveAdmins = _context.UserProfile.Where(up => up.UserTypeId == 1).Count();
+            int ActiveAdmins = _context.UserProfile.Where(up => up.UserTypeId == 1 && up.IsActive == true).Count();
 
             try
             {
