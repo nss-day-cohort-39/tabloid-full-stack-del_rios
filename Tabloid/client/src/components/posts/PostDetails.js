@@ -28,7 +28,7 @@ const PostDetails = () => {
   }
 
   const commentDisplay = () => {
-    if (displayComment && post.comments.length > 0) {
+    if (displayComment) {
       return (
         <div>
           <CommentList comments={post.comments} setPost={setPost} postId={post.id} />
@@ -38,12 +38,8 @@ const PostDetails = () => {
         </div>
       )
     }
-    else if (displayComment && post.comments.length === 0) {
-      return (
-        <div><h1>AINT NUTTIN HERE BITCH!!!!!!</h1></div>
-      )
-    }
   }
+
   // Use this hook to allow us to programatically redirect users
   const history = useHistory();
 
