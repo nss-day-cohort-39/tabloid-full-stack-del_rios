@@ -54,7 +54,6 @@ namespace Tabloid
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
