@@ -16,8 +16,8 @@ const Post = ({ post }) => {
 
   
 const updatePost = () => {
-postEdit.isApproved = false;
-editPost(postEdit.id, postEdit).then(() => getAllPosts())
+postEdit.isApproved = !postEdit.isApproved;
+editPost(postEdit.id, postEdit)
 };
 
 
@@ -34,8 +34,10 @@ if(userProfileType == 1){
     <CardFooter>
       Post Category: {post.category.name}
     </CardFooter>
+    {(post.isApproved == true) ?
     <Button onClick={updatePost} color= "danger">Unapprove this Post</Button>
-  </Card>
+ :  <Button onClick={updatePost} color= "success">Approve this Post</Button>
+       }   </Card>
   )
 }
   return (

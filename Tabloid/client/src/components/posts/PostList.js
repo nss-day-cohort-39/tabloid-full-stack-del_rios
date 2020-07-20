@@ -8,7 +8,7 @@ const PostList = () => {
 
   useEffect(() => {
     getAllPosts();
-  }, []);
+  }, [posts]);
 
   return (
     <div className="row justify-content-center">

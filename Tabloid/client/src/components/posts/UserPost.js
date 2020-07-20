@@ -10,7 +10,7 @@ const UserPost = () => {
 
   useEffect(() => {
     getUserPost(id);
-  }, []);
+  }, [posts]);
 
   return (
     <div className="row justify-content-center">
