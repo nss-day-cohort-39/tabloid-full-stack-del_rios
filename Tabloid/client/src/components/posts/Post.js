@@ -34,7 +34,7 @@ if(userProfileType == 1){
     <CardFooter>
       Post Category: {post.category.name}
     </CardFooter>
-    <Button onClick={updatePost}>Unapprove this Post</Button>
+    <Button onClick={updatePost} color= "danger">Unapprove this Post</Button>
   </Card>
   )
 }

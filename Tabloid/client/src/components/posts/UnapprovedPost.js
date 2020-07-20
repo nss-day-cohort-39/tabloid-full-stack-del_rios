@@ -48,7 +48,7 @@ const UnapprovedPost = ({ post }) => {
          </ListGroup>
          </Form>
       </CardBody>
-      <Button color="info" type="submit" onClick={updatePost}>Approve</Button>
+      <Button color="info" type="submit" color="success"onClick={updatePost}>Approve</Button>
     </Card>
   );
 }
