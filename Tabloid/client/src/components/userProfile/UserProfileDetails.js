@@ -5,7 +5,7 @@ import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 export const UserProfileDetails = () => {
     const { id } = useParams();
-    const { isLoggedIn, editUserProfile, getUserProfileById } = useContext(UserProfileContext);
+    const { isLoggedIn, logout, editUserProfile, getUserProfileById } = useContext(UserProfileContext);
     const [userProfile, setUserProfile] = useState({ userType: "" });
     const [process, setProcess] = useState("");
     const [showToast, setShowToast] = useState(false);
@@ -13,9 +13,11 @@ export const UserProfileDetails = () => {
     const toggleToast = () => setShowToast(!showToast);
     const toggleInitializeToast = () => setInitializeToast(!showToast);
     let userTypeId = 0;
+    let currentUserId = 0;
 
     if (isLoggedIn === true) {
         userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
+        currentUserId = JSON.parse(sessionStorage.getItem("userProfile")).id;
     }
 
     // Use this hook to allow us to programatically redirect users
@@ -40,7 +42,13 @@ export const UserProfileDetails = () => {
         const parsedId = +id;
         userProfile.isActive = false;
         editUserProfile(parsedId, userProfile).then(() => {
-            getUserProfileById(id).then(setUserProfile)
+            getUserProfileById(parsedId).then((resp) => {
+                if (resp.title === "Unauthorized") {
+                    logout();
+                } else {
+                    setUserProfile(resp);
+                }
+            })
         })
     }
 
@@ -70,7 +78,13 @@ export const UserProfileDetails = () => {
         const parsedId = +id;
         userProfile.userTypeId = 2;
         editUserProfile(parsedId, userProfile).then(() => {
-            getUserProfileById(id).then(setUserProfile)
+            getUserProfileById(parsedId).then((resp) => {
+                if (resp.title === "Unauthorized") {
+                    logout();
+                } else {
+                    setUserProfile(resp);
+                }
+            })
         })
     }
 
@@ -121,7 +135,6 @@ export const UserProfileDetails = () => {
         )
     }
 
-    debugger
     const userProfileTypeCheck = () => {
         if (userTypeId === 0) {
             return (

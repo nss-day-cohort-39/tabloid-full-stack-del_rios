@@ -18,13 +18,9 @@ export default function Header() {
   let userProfileId = 0;
   let userTypeId = 0;
 
-
-
   if (isLoggedIn === true) {
     userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
     userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
-
-
   }
 
   return (
