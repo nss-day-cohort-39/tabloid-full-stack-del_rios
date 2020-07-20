@@ -36,20 +36,16 @@ export default function Header() {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/">Posts</NavLink>
                 </NavItem>
+                {(userTypeId === 1) ? <NavItem><NavLink tag={RRNavLink} to="/unapproved">Unapproved Post</NavLink></NavItem> : ""}
                 <NavItem>
                   <NavLink tag={RRNavLink} to={`/user/${userProfileId}`}>My Posts</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/addpost">New Posts</NavLink>
+                  <NavLink tag={RRNavLink} to="/addpost">Create New Post</NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/categories">Category</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/tags">Tag Management</NavLink>
-                </NavItem>
+                {(userTypeId === 1) ? <NavItem><NavLink tag={RRNavLink} to="/categories">Category</NavLink></NavItem> : ""}
+                {(userTypeId === 1) ? <NavItem><NavLink tag={RRNavLink} to="/tags">Tag Management</NavLink></NavItem> : ""}
                 {(userTypeId === 1) ? <NavItem><NavLink tag={RRNavLink} to="/userprofiles">User Profiles</NavLink></NavItem> : ""}
-                {(userTypeId === 1) ? <NavItem><NavLink tag={RRNavLink} to="/unapproved">Unapproved Post</NavLink></NavItem> : ""}
               </>
             }
           </Nav>

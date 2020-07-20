@@ -43,11 +43,10 @@ namespace Tabloid.Repositories
         public void Delete(int id)
         {
             var tag = GetById(id);
+            var postTag = _context.PostTag.Where(pt => pt.TagId == id);
+            _context.PostTag.RemoveRange(postTag);
             _context.Tag.Remove(tag);
             _context.SaveChanges();
         }
-
-
- 
     }
 }

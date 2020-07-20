@@ -51,3 +51,22 @@ p {
 .avatarContainer {
   text-align: center;
 }
+
+.unapprovedPostImage {
+  max-width: 50%;
+}
+
+.cards-column {
+  text-align: center;
+  text-align: -webkit-center;
+}
+
+.cards-column ul {
+  text-align: left;
+  text-align: -webkit-left;
+}
+
+.cards-column div {
+  text-align: left;
+  text-align: -webkit-left;
+}

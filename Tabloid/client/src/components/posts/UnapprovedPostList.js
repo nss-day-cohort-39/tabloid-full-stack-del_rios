@@ -11,8 +11,8 @@ const UnapprovedPostList = () => {
   }, []);
 
   return (
-      <div className="row justify-content-center">
-          <header><h1>Pending Post</h1></header>
+    <div className="row justify-content-center">
+      <header><h1>Pending Posts</h1></header>
       <div className="postList">
         <div className="cards-column">
           {posts.map((post) => (

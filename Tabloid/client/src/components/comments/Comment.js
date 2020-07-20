@@ -13,12 +13,14 @@ export const Comment = ({ comment, setPost }) => {
     const [year, month, day] = unformatedDate.split("-");
     const formatedDate = month + "/" + day + "/" + year;
     const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
+    const userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
     const [editComment, setEditComment] = useState(false)
     const subject = useRef()
     const content = useRef()
     const [showToast, setShowToast] = useState(false);
     const toggleToast = () => setShowToast(!showToast);
 
+    debugger
     const nukeComment = (e) => {
         e.preventDefault();
 
@@ -42,9 +44,7 @@ export const Comment = ({ comment, setPost }) => {
     }
 
     if (userProfileId !== comment.userProfile.id) {
-
         return (
-
             <>
                 <Card className="comment">
                     <div className="commentInfoContainer">
@@ -53,6 +53,17 @@ export const Comment = ({ comment, setPost }) => {
                     </div>
                     <div><strong>Subject: </strong>{comment.subject}</div>
                     <div><strong>Content: </strong>{comment.content}</div>
+                    <div className="buttonContainer">
+                        {
+                            (userTypeId === 1)
+                                ? <Button onClick={e => {
+                                    e.preventDefault()
+                                    toggleToast();
+                                }
+                                } color="danger">Delete Comment</Button>
+                                : ""
+                        }
+                    </div>
                 </Card>
             </>
         )
@@ -83,7 +94,6 @@ export const Comment = ({ comment, setPost }) => {
                     <div><strong>Subject: </strong>{comment.subject}</div>
                     <div><strong>Content: </strong>{comment.content}</div>
                     <div className="buttonContainer">
-
                         <Button onClick={e => {
                             e.preventDefault()
                             setEditComment(true)
