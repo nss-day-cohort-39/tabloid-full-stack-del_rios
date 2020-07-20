@@ -19,5 +19,7 @@ namespace Tabloid.Data
         public DbSet<PostReaction> PostReaction { get; set; }
 
         public DbSet<Comment> Comment { get; set; }
+
+        public DbSet<Subscription> Subscription { get; set; }
     }
 }
