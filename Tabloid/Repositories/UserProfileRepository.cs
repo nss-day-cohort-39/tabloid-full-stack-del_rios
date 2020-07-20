@@ -45,9 +45,36 @@ namespace Tabloid.Repositories
             _context.SaveChanges();
         }
 
-        internal void Update(UserProfile userProfile)
+        public void Update(UserProfile userProfile, UserProfile currentUserProfile)
         {
-            throw new NotImplementedException();
+            int ActiveAdmins = _context.UserProfile.Count(up => up.UserTypeId == 1 && up.IsActive == true);
+
+            try
+            {
+                if (currentUserProfile.Id != userProfile.Id)
+                {
+
+                    _context.Entry(userProfile).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                else if (ActiveAdmins >= 2)
+                {
+                    if (userProfile.IsActive != currentUserProfile.IsActive)
+                    {
+                        currentUserProfile.IsActive = false;
+                        _context.SaveChanges();
+                    }
+                    else if (userProfile.UserTypeId != currentUserProfile.UserTypeId)
+                    {
+                        currentUserProfile.UserTypeId = UserType.AUTHOR_ID;
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
         }
     }
 }

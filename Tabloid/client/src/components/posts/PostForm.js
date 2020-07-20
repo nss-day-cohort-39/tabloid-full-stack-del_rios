@@ -35,8 +35,7 @@ export const PostForm = () => {
 
     const submit = (e) => {
         e.preventDefault()
-        if(userType == 1)
-        {
+        if (userType === 1) {
             formState.isApproved = true;
         } else {
             formState.isApproved = false;

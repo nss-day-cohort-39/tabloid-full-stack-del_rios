@@ -13,9 +13,14 @@ import { CategoryList } from "./categories/CategoryList"
 import { UserProfileList } from "./userProfile/UserProfileList";
 import { AddTagForm } from "./tags/AddTagForm";
 import { UserProfileDetails } from "./userProfile/UserProfileDetails";
+import { UserProfileDeactivatedList } from "./userProfile/UserProfileDeactivatedList";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
+  let userTypeId = null;
+  if (isLoggedIn) {
+    userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
+  }
 
   return (
     <main>
@@ -49,8 +54,13 @@ export default function ApplicationViews() {
         </Route>
 
         <Route path="/userprofiles" exact>
-          {isLoggedIn ? <UserProfileList /> : <Redirect to="/login" />}
+          {isLoggedIn && userTypeId === 1 ? <UserProfileList /> : <Redirect to="/" />}
         </Route>
+
+        <Route path="/userprofilesdeactivated" exact>
+          {isLoggedIn && userTypeId === 1 ? <UserProfileDeactivatedList /> : <Redirect to="/" />}
+        </Route>
+
         <Route path="/tags">
           {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
         </Route>
@@ -60,7 +70,7 @@ export default function ApplicationViews() {
         </Route>
 
         <Route path="/userprofiles/:id">
-          {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
+          {isLoggedIn && userTypeId === 1 ? <UserProfileDetails /> : <Redirect to="/" />}
         </Route>
 
         
