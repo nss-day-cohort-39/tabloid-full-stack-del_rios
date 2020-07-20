@@ -25,6 +25,14 @@ namespace Tabloid.Repositories
                            .OrderByDescending(p => p.PublishDateTime).ToList();
         }
 
+        public List<Post> GetAllUnapprovedPost()
+        {
+            return _context.Post
+                           .Include(p => p.UserProfile)
+                           .Include(p => p.Category)
+                           .Where(p => p.IsApproved == false && p.PublishDateTime <= DateTime.Now)
+                           .OrderByDescending(p => p.PublishDateTime).ToList();
+        }
         public List<Post> GetByUserProfileId(int id)
         {
             return _context.Post

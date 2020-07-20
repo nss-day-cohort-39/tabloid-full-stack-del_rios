@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button } from "reactstrap";
 import "./UserProfile.css"
-
 import { useHistory } from "react-router-dom";
-import { UserProfileContext } from '../../providers/UserProfileProvider';
 
 
 export const UserProfile = ({ userprofile }) => {
@@ -17,7 +15,7 @@ export const UserProfile = ({ userprofile }) => {
                 <div className="userprofile--userInfo">
                     <div> Display Name:{userprofile.displayName}</div>
                     <div> Name: {userprofile.firstName} {userprofile.lastName}</div>
-                    <div> User Type: {(userprofile.userTypeId == 1) ? "admin" : "author"}</div>
+                    <div> User Type: {(userprofile.userTypeId === 1) ? "admin" : "author"}</div>
                 </div>
                 <div className="userprofile--detailsButton">
                     <Button onClick={e => {

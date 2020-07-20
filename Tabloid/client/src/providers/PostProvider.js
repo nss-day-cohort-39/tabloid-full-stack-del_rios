@@ -21,6 +21,16 @@ export const PostProvider = (props) => {
       }).then((res) => res.json())
         .then(setPosts));
 
+        const getAllUnApprovedPosts = () =>
+    getToken().then((token) =>
+      fetch("/api/post/unapproved", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((res) => res.json())
+        .then(setPosts));
+
   const addPost = (post) =>
     getToken().then((token) =>
       fetch(apiUrl, {
@@ -68,12 +78,6 @@ export const PostProvider = (props) => {
       })
     );
   };
-
-  //   const searchPosts = (search) => {
-  //     return fetch(`api / post / search ? q = ${ search }`)
-  //   .then(res => res.json())
-  //   .then(setPosts)
-  //   };
 
   const getPost = (id) => {
     return getToken().then((token) =>
@@ -173,7 +177,7 @@ export const PostProvider = (props) => {
   };
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, addPost, addTagtoPost, removeTagFromPost, getPost, getUserPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost }}>
+    <PostContext.Provider value={{ posts, getAllPosts, addPost, addTagtoPost, removeTagFromPost, getPost, getUserPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost, getAllUnApprovedPosts }}>
       {props.children}
     </PostContext.Provider>
   );

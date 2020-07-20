@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { Category } from "./Category"
 import { CategoryContext } from "../../providers/CategoryProvider"
-import { Button } from "reactstrap";
 
 export const CategoryList = () => {
 

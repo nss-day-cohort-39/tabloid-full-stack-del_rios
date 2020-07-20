@@ -6,7 +6,7 @@ import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
 
-export const UserProfileList = () => {
+export const UserProfileDeactivatedList = () => {
     const { users, getAllUserProfiles } = useContext(UserProfileContext);
     const history = useHistory();
 
@@ -14,13 +14,14 @@ export const UserProfileList = () => {
         getAllUserProfiles();
     }, []);
 
-    const filteredUsers = users.filter(u => u.isActive === true);
+    const filteredUsers = users.filter(u => u.isActive === false);
+
     return (
         <div>
             <div className="buttonContainer">
                 <Button color="primary" onClick={() => {
-                    history.push("/userprofilesdeactivated");
-                }}>View List of Deactivated Users</Button>
+                    history.push("/userprofiles");
+                }}>View List of Active Users</Button>
             </div>
             {
                 filteredUsers.map(u => {
