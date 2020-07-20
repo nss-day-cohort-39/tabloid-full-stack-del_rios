@@ -1,6 +1,6 @@
 
-import { Card, CardImg, CardBody, CardFooter, Button } from "reactstrap";
-import { Link, useParams, useHistory, useLocation } from "react-router-dom";
+import { Card, CardBody, CardFooter, Button } from "reactstrap";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { PostContext } from "../../providers/PostProvider";
 import React, { useState, useContext, useEffect } from "react";
 
@@ -18,7 +18,6 @@ const Post = ({ post }) => {
   const updatePost = () => {
     postEdit.isApproved = !postEdit.isApproved;
     editPost(postEdit.id, postEdit).then(() => {
-      debugger
       if (location.pathname === "/") {
         getAllPosts();
       } else {
