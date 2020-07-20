@@ -6,6 +6,7 @@ import UserPost from "./posts/UserPost"
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import PostList from "./posts/PostList";
+import UnapprovedPostList from "./posts/UnapprovedPostList"
 import { TagList } from "./tags/TagList";
 import { PostForm } from "./posts/PostForm";
 import { CategoryList } from "./categories/CategoryList"
@@ -60,6 +61,11 @@ export default function ApplicationViews() {
 
         <Route path="/userprofiles/:id">
           {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
+        </Route>
+
+        
+        <Route path="/unapproved">
+          {isLoggedIn ? <UnapprovedPostList /> : <Redirect to="/login" />}
         </Route>
 
       </Switch>

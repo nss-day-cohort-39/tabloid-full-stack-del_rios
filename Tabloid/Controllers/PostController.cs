@@ -26,6 +26,21 @@ namespace Tabloid.Controllers
             return Ok(_postRepository.GetAll());
         }
 
+        [HttpGet("unapproved")]
+        public IActionResult GetUnApprovedPost()
+        {
+            var userProfile = GetCurrentUserProfile();
+            if (userProfile.UserTypeId == 1)
+            {
+                return Ok(_postRepository.GetAllUnapprovedPost());
+            }
+            else
+            {
+                return Unauthorized();
+            }
+          
+        }
+
         [HttpGet("getbyuser/{id}")]
         public IActionResult GetByUser(int id)
         {
@@ -100,7 +115,7 @@ namespace Tabloid.Controllers
         {
             var currentUserProfile = GetCurrentUserProfile();
 
-            if (currentUserProfile.Id != post.UserProfileId)
+            if (currentUserProfile.Id != post.UserProfileId && currentUserProfile.UserTypeId != 1)
             {
                 return Unauthorized();
             }
