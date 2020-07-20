@@ -49,6 +49,7 @@ export default function Header() {
                   <NavLink tag={RRNavLink} to="/tags">Tag Management</NavLink>
                 </NavItem>
                 {(userTypeId === 1) ? <NavItem><NavLink tag={RRNavLink} to="/userprofiles">User Profiles</NavLink></NavItem> : ""}
+                {(userTypeId === 1) ? <NavItem><NavLink tag={RRNavLink} to="/unapproved">Unapproved Post</NavLink></NavItem> : ""}
               </>
             }
           </Nav>
