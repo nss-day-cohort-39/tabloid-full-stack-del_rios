@@ -77,7 +77,6 @@ const PostDetails = () => {
   const updatePost = (e) => {
     e.preventDefault();
 
-    debugger
     formState.categoryId = +formState.categoryId;
     editPost(formState.id, formState).then(() => {
       getPost(formState.id).then(setPost).then(toggleModal);

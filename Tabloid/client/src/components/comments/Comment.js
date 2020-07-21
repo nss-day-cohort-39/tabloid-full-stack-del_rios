@@ -20,7 +20,6 @@ export const Comment = ({ comment, setPost }) => {
     const [showToast, setShowToast] = useState(false);
     const toggleToast = () => setShowToast(!showToast);
 
-    debugger
     const nukeComment = (e) => {
         e.preventDefault();
 

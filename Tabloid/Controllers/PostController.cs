@@ -47,6 +47,26 @@ namespace Tabloid.Controllers
             return Ok(_postRepository.GetByUserProfileId(id));
         }
 
+        [HttpGet("filterpostsbycategory")]
+        public IActionResult FilterPostsByCategory(int q, bool b)
+        {
+            if (q == 0)
+            {
+                if (b)
+                {
+                    return Ok(_postRepository.GetAll());
+                }
+                else
+                {
+                    return Ok(_postRepository.GetAllUnapprovedPost());
+                }
+            }
+            else
+            {
+                return Ok(_postRepository.GetAllPostsByCategory(q, b));
+            }
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
