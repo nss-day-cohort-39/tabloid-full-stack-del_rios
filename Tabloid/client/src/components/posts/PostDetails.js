@@ -142,6 +142,12 @@ const PostDetails = () => {
                 : ""
             }
 
+            {
+              (post.isApproved === false)
+                ? <p>This post has not yet been approved by an admin and is only visible to you.</p>
+                : ""
+            }
+
           </ListGroup>
           {commentDisplay()}
 
