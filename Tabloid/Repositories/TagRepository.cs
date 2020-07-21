@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Tabloid.Data;
 using Tabloid.Models;
 
@@ -25,7 +25,7 @@ namespace Tabloid.Repositories
         public Tag GetById(int Id)
         {
             return _context.Tag
-                       .FirstOrDefault(c => c.Id == Id);
+                .FirstOrDefault(c => c.Id == Id);
         }
 
         public void Add(Tag Tag)
