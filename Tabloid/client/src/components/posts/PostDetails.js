@@ -12,9 +12,10 @@ import "../../css/Reaction.css"
 
 const PostDetails = () => {
   const [post, setPost] = useState();
-  const { getPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost } = useContext(PostContext);
+  const { getPost, deletePostById, editPost } = useContext(PostContext);
   const { getAllCategories, categories } = useContext(CategoryContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
+  const userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
   const { id } = useParams();
   const [showToast, setShowToast] = useState(false);
   const [displayComment, setDisplayComment] = useState(false);
@@ -97,6 +98,25 @@ const PostDetails = () => {
     )
   }
 
+  const buttonContainerRender = () => {
+    if (post.userProfileId === userProfileId) {
+      return (
+        <ListGroupItem className="buttonContainer">
+          <Button onClick={toggleModal} color="warning">Edit Post</Button>
+          <Button onClick={toggleToast} color="danger">Delete Post</Button>
+          <Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button>
+        </ListGroupItem>
+      )
+    } else {
+      return (
+        <ListGroupItem className="buttonContainer">
+          <Button onClick={toggleToast} color="danger">Delete Post</Button>
+          <Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button>
+        </ListGroupItem>
+      )
+    }
+  }
+
   let formatedDate = null;
   let unformatedDate = null;
 
@@ -128,11 +148,10 @@ const PostDetails = () => {
             <ListGroupItem><div className="postTags"> <strong>Tags: </strong>  {post.postTags.map(pt => <TagsOnPost key={pt.id} postTag={pt} />)}</div></ListGroupItem>
 
             {
-              (post.userProfileId === userProfileId)
-                ? <ListGroupItem className="buttonContainer"><Button onClick={toggleModal} color="warning">Edit Post</Button><Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button><Button onClick={toggleToast} color="danger">Delete Post</Button></ListGroupItem>
-                : <Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button>
+              (post.userProfileId === userProfileId || userTypeId === 1)
+                ? buttonContainerRender()
+                : <ListGroupItem className="buttonContainer"><Button onClick={toggleComments} color="primary">{(displayComment) ? "Hide Comments" : "Show Comments"}</Button></ListGroupItem>
             }
-
 
             <ListGroupItem><div className="postReactions">{reactions.map(r => <Reactions key={r.id} reaction={r} />)}</div></ListGroupItem>
 
@@ -204,7 +223,8 @@ const PostDetails = () => {
                     </FormGroup>
                     <FormGroup>
                       <Label>Category:</Label>
-                      <select id="categoryId" defaultValue={post.category.id} onChange={handleUserInput}>
+                      <select id="categoryId" defaultValue={(categories.find(c => c.id === post.category.id && c.active)) ? post.category.id : ""} onChange={handleUserInput}>
+                        <option key={0} value="">Choose Category</option>
                         {
                           categories.map(c => {
                             return <option key={c.id} value={c.id}>{c.name}</option>

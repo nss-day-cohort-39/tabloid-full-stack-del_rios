@@ -13,11 +13,9 @@ export const UserProfileDetails = () => {
     const toggleToast = () => setShowToast(!showToast);
     const toggleInitializeToast = () => setInitializeToast(!showToast);
     let userTypeId = 0;
-    let currentUserId = 0;
 
     if (isLoggedIn === true) {
         userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
-        currentUserId = JSON.parse(sessionStorage.getItem("userProfile")).id;
     }
 
     // Use this hook to allow us to programatically redirect users

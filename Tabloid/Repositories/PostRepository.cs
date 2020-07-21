@@ -106,6 +106,17 @@ namespace Tabloid.Repositories
                                PostReactions = p.PostReactions
                            }).FirstOrDefault(p => p.Id == id);
         }
+
+        public List<Post> GetAllPostsByCategory(int criterion, bool approved)
+        {
+            return _context.Post
+                            .Include(p => p.UserProfile)
+                            .Include(p => p.Category)
+                            .Include(p => p.PostTags)
+                            .ThenInclude(pt => pt.Tag)
+                            .Where(p => p.CategoryId == criterion && p.PublishDateTime <= DateTime.Now && p.IsApproved == approved)
+                            .OrderByDescending(p => p.PublishDateTime).ToList();
+        }
         //
         public void Add(Post post)
         {
