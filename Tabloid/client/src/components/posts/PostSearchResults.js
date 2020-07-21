@@ -7,7 +7,6 @@ export const SearchResults = ({ searchTerms }) => {
   const [filteredPost, setFiltered] = useState([]);
 
   useEffect(() => {
-    debugger
     if (searchTerms !== "") {
       const subset = posts.filter((post) =>
         post.postTags.some(pt => pt.tag.name.toLowerCase().includes(searchTerms))
