@@ -9,6 +9,8 @@ import { CommentList } from "../comments/CommentList";
 import { Reactions } from "./Reactions";
 import "../../css/Tag.css"
 import "../../css/Reaction.css"
+import "../../css/PostDetails.css"
+import { SubscriptionContext } from "../../providers/SubscriptionProvider";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
@@ -21,6 +23,7 @@ const PostDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [formState, setformState] = useState({});
   const { getAllReactions, reactions } = useContext(ReactionContext)
+  const { addSub } = useContext(SubscriptionContext)
 
   const toggleModal = () => setShowModal(!showModal);
   const toggleToast = () => setShowToast(!showToast);
@@ -73,6 +76,17 @@ const PostDetails = () => {
     });
   };
 
+  const subscribeToAuthor = () => {
+
+    const subscription = {
+      SubscriberUserProfileId: userProfileId,
+      ProviderUserPofileId: 8,
+      BeginDateTime: new Date()
+    }
+    debugger
+    addSub(subscription)
+  }
+
   const updatePost = (e) => {
     e.preventDefault();
 
@@ -120,7 +134,7 @@ const PostDetails = () => {
                 ? <ListGroupItem><strong>Posted: </strong>No publication date.</ListGroupItem>
                 : <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>
             }
-            <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
+            <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}<Button onClick={subscribeToAuthor} id="subscribeButton" color="primary">Subscribe to Author</Button></ListGroupItem>
             <ListGroupItem><div className="postTags"> <strong>Tags: </strong>  {post.postTags.map(pt => <TagsOnPost key={pt.id} postTag={pt} />)}</div></ListGroupItem>
 
             {

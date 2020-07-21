@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { UserProfileContext } from "./UserProfileProvider";
 
 
 export const SubscriptionContext = React.createContext();
@@ -7,7 +8,7 @@ export const SubscriptionProvider = (props) => {
 
     const apiUrl = "/api/subscription";
 
-    const { getToken } = useContext(SubscriptionContext);
+    const { getToken } = useContext(UserProfileContext);
     const [subs, setSubs] = useState([]);
     const [subPosts, setSubPosts] = useState([]);
 
@@ -66,8 +67,8 @@ export const SubscriptionProvider = (props) => {
     }
 
     return (
-        <TagContext.Provider value={{ subs, setSubs, subPosts, setSubPosts, getAllSubPosts, addSub, deleteSub, getSubById }}>
+        <SubscriptionContext.Provider value={{ subs, setSubs, subPosts, setSubPosts, getAllSubPosts, addSub, deleteSub, getSubById }}>
             {props.children}
-        </TagContext.Provider>
+        </SubscriptionContext.Provider>
     );
 };
