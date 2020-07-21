@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,8 +37,23 @@ namespace Tabloid.Controllers
         [HttpPost]
         public IActionResult Post(Subscription sub)
         {
-            _subscriptionRepository.Add(sub);
-            return CreatedAtAction("Get", new { id = sub.Id }, sub);
+            var user = GetCurrentUserProfile();
+
+            if(user.Id == sub.SubscriberUserProfileId)
+            {
+                _subscriptionRepository.Add(sub);
+                return Ok(sub);
+            }
+            else
+            {
+                return Forbid();
+            }
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
 
         [HttpGet("{id}")]

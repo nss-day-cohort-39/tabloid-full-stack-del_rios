@@ -17,6 +17,7 @@ const PostDetails = () => {
   const { getPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost } = useContext(PostContext);
   const { getAllCategories, categories } = useContext(CategoryContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
+  const userSubs = JSON.parse(sessionStorage.getItem("userProfile")).subscriptions;
   const { id } = useParams();
   const [showToast, setShowToast] = useState(false);
   const [displayComment, setDisplayComment] = useState(false);
@@ -59,6 +60,9 @@ const PostDetails = () => {
   useEffect(() => {
     getAllReactions();
   }, []);
+  useEffect(() => {
+    console.log(userSubs);
+  }, []);
 
   useEffect(() => {
     setformState(post);
@@ -67,6 +71,7 @@ const PostDetails = () => {
   if (!post) {
     return null;
   }
+
 
   const deletePost = (e) => {
     e.preventDefault();
@@ -79,8 +84,8 @@ const PostDetails = () => {
   const subscribeToAuthor = () => {
 
     const subscription = {
-      SubscriberUserProfileId: userProfileId,
-      ProviderUserPofileId: 8,
+      subscriberUserProfileId: userProfileId,
+      providerUserProfileId: post.userProfileId,
       BeginDateTime: new Date()
     }
     debugger
