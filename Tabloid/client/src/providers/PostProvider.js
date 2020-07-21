@@ -176,8 +176,15 @@ export const PostProvider = (props) => {
     );
   };
 
+  
+  const searchPosts = (search) => {
+    return fetch(`api/post/search?q=${search}`)
+  .then(res => res.json())
+  .then(setPosts)
+  };
+
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, addPost, addTagtoPost, removeTagFromPost, getPost, getUserPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost, getAllUnApprovedPosts }}>
+    <PostContext.Provider value={{searchPosts, posts, getAllPosts, addPost, addTagtoPost, removeTagFromPost, getPost, getUserPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost, getAllUnApprovedPosts }}>
       {props.children}
     </PostContext.Provider>
   );

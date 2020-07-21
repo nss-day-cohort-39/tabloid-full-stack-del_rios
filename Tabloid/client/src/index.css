@@ -1,3 +1,4 @@
+
 main {
   margin: 2em;
 }
@@ -50,4 +51,12 @@ p {
 
 .avatarContainer {
   text-align: center;
+}
+
+.searchList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+
 }
