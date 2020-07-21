@@ -61,7 +61,7 @@ namespace Tabloid.Controllers
             {
                 return Ok(aprovedPost);
             }
-            else if (post != null && post.UserProfileId == currentUserProfile.Id)
+            else if (post != null && (post.UserProfileId == currentUserProfile.Id || currentUserProfile.UserTypeId == 1))
             {
                 return Ok(post);
             }
