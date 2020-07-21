@@ -3,3 +3,9 @@
     flex-wrap: nowrap;
     justify-content: space-evenly;
 }
+.addReactions {
+    margin: 1rem;
+}
+.reaction {
+    margin: .5rem;
+}

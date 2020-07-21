@@ -43,9 +43,19 @@ namespace Tabloid.Repositories
         public void Delete(int id)
         {
             var reaction = GetById(id);
+            var postReaction = _context.PostReaction.Where(pr => pr.ReactionId == id);
+            _context.PostReaction.RemoveRange(postReaction);
             _context.Reaction.Remove(reaction);
             _context.SaveChanges();
         }
+        //public void Delete(int id)
+        //{
+        //    var tag = GetById(id);
+        //    var postTag = _context.PostTag.Where(pt => pt.TagId == id);
+        //    _context.PostTag.RemoveRange(postTag);
+        //    _context.Tag.Remove(tag);
+        //    _context.SaveChanges();
+        //}
 
 
 
