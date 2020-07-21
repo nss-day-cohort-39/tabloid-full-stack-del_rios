@@ -5,17 +5,12 @@ import { PostContext } from "../../providers/PostProvider";
 import { useParams } from "react-router-dom";
 
 
-export const AddTag = ({ tag }) => {
+export const AddTag = ({ tag, currentPost }) => {
 
     const { addTagtoPost, removeTagFromPost, getPost } = useContext(PostContext);
     const { id } = useParams();
 
-    const [post, setPost] = useState();
-
-    useEffect(() => {
-        getPost(parseInt(id)).then(setPost);
-    }, []);
-
+    const [post, setPost] = useState(currentPost);
 
     const addThisTag = (tagId) => {
         addTagtoPost({
@@ -24,10 +19,6 @@ export const AddTag = ({ tag }) => {
         }).then(() => {
             getPost(parseInt(id)).then(setPost)
         })
-    }
-
-    if (!post) {
-        return null;
     }
 
     return (

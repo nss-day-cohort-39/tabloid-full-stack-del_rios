@@ -21,6 +21,8 @@ namespace Tabloid.Repositories
             return _context.Post
                            .Include(p => p.UserProfile)
                            .Include(p => p.Category)
+                           .Include(p => p.PostTags)
+                           .ThenInclude(pt => pt.Tag)
                            .Where(p => p.IsApproved == true && p.PublishDateTime <= DateTime.Now)
                            .OrderByDescending(p => p.PublishDateTime).ToList();
         }
@@ -187,6 +189,20 @@ namespace Tabloid.Repositories
             var postReaction = GetPostReactionById(id);
             _context.PostReaction.Remove(postReaction);
             _context.SaveChanges();
+        }
+       
+        public List<Post> Search(string criterion, bool sortDescending)
+        {
+            var query = _context.Post
+                                .Include(p => p.PostTags)
+                                 .ThenInclude(pt => pt.Tag)
+                                .Include(p => p.UserProfile)
+                                .Where(p => p.PostTags.Any(pt => pt.Tag.Name.Contains(criterion)));
+
+            return sortDescending
+                ? query.OrderByDescending(p => p.CreateDateTime).ToList()
+                : query.OrderBy(p => p.CreateDateTime).ToList();
+
         }
 
     }

@@ -43,7 +43,7 @@ export const UserProfileDetails = () => {
         userProfile.isActive = false;
         editUserProfile(parsedId, userProfile).then(() => {
             getUserProfileById(parsedId).then((resp) => {
-                if (resp.title === "Unauthorized") {
+                if (resp.id === parsedId) {
                     logout();
                 } else {
                     setUserProfile(resp);
@@ -79,7 +79,7 @@ export const UserProfileDetails = () => {
         userProfile.userTypeId = 2;
         editUserProfile(parsedId, userProfile).then(() => {
             getUserProfileById(parsedId).then((resp) => {
-                if (resp.title === "Unauthorized") {
+                if (resp.id === parsedId) {
                     logout();
                 } else {
                     setUserProfile(resp);

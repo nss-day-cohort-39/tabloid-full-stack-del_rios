@@ -38,6 +38,9 @@ const PostDetails = () => {
       return (
         <div>
           <CommentList comments={post.comments} setPost={setPost} postId={post.id} />
+          {/* {
+            post.comments.map(c => <Comment key={c.id} comment={c} setPost={setPost} />)
+          } */}
         </div>
       )
     }
@@ -136,11 +139,12 @@ const PostDetails = () => {
             <ListGroupItem><strong>Content: </strong>{post.content}</ListGroupItem>
             <ListGroupItem><strong>Category</strong>: {post.category.name}</ListGroupItem>
             {
-              (post.publishDateTime === null)
+              (post.publishDateTime == null)
                 ? <ListGroupItem><strong>Posted: </strong>No publication date.</ListGroupItem>
                 : <ListGroupItem><strong>Posted: </strong>{formatedDate}</ListGroupItem>
             }
-            <ListGroupItem><strong>Posted By: </strong>{post.userProfile.displayName}</ListGroupItem>
+
+            <ListGroupItem><strong>Posted By: </strong><Link to={`/user/${post.userProfileId}`}>{post.userProfile.displayName}</Link></ListGroupItem>
             <ListGroupItem><div className="postTags"> <strong>Tags: </strong>  {post.postTags.map(pt => <TagsOnPost key={pt.id} postTag={pt} />)}</div></ListGroupItem>
 
             {
@@ -154,6 +158,12 @@ const PostDetails = () => {
             {
               (post.userProfileId === userProfileId)
                 ? <ListGroupItem><Link to={`/AddTagForm/post/${post.id}`}><h6>Manage Tags</h6></Link></ListGroupItem>
+                : ""
+            }
+
+            {
+              (post.isApproved === false)
+                ? <p>This post has not yet been approved by an admin and is only visible to you.</p>
                 : ""
             }
 

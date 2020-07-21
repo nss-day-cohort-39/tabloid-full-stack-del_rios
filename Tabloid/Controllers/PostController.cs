@@ -81,7 +81,7 @@ namespace Tabloid.Controllers
             {
                 return Ok(aprovedPost);
             }
-            else if (post != null && post.UserProfileId == currentUserProfile.Id)
+            else if (post != null && (post.UserProfileId == currentUserProfile.Id || currentUserProfile.UserTypeId == 1))
             {
                 return Ok(post);
             }
@@ -181,6 +181,13 @@ namespace Tabloid.Controllers
 
             _postRepository.RemoveReaction(id);
             return NoContent();
+        }
+
+
+        [HttpGet("search")]
+        public IActionResult Search(string q, bool sortDesc)
+        {
+            return Ok(_postRepository.Search(q, sortDesc));
         }
 
         private UserProfile GetCurrentUserProfile()

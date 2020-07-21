@@ -1,12 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import { Label } from "reactstrap";
 import Post from "./Post";
+import { SearchBar } from "./PostSearchBar"
+import { SearchResults } from "./PostSearchResults"
 
 const PostList = () => {
   const { posts, getAllPosts, filterPostsByCategory } = useContext(PostContext);
   const { getAllCategories, categories } = useContext(CategoryContext);
+  const [searchTerms, setTerms] = useState(null);
 
   useEffect(() => {
     getAllPosts();
@@ -38,6 +41,8 @@ const PostList = () => {
             }
           </select>
         </div>
+        <SearchBar setTerms={setTerms} />
+        <SearchResults searchTerms={searchTerms} />
         <div className="cards-column">
           {
             (posts.length > 0)
