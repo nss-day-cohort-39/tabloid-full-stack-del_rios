@@ -14,6 +14,7 @@ namespace Tabloid.Repositories
         public PostRepository(ApplicationDbContext context)
         {
             _context = context;
+            
         }
 
         public List<Post> GetAll()
@@ -41,6 +42,8 @@ namespace Tabloid.Repositories
                             .Where(p => p.UserProfileId == id)
                             .OrderByDescending(p => p.PublishDateTime).ToList();
         }
+
+
 
         public Post GetById(int id)
         {
@@ -103,6 +106,38 @@ namespace Tabloid.Repositories
                                PostTags = p.PostTags,
                                PostReactions = p.PostReactions
                            }).FirstOrDefault(p => p.Id == id);
+        }
+
+        public Post GetApprovedPostBySubscriberId(int subscriberId)
+        {
+            return _context.Post
+                           .Include(p => p.UserProfile)
+                           .ThenInclude(up => up.UserType)
+                           .Include(p => p.Category)
+                           .Include(p => p.PostTags)
+                           .ThenInclude(pt => pt.Tag)
+                           .Include(p => p.Comments)
+                           .ThenInclude(c => c.UserProfile)
+                           .Include(p => p.PostReactions)
+                           .ThenInclude(pr => pr.Reaction)
+                           .Where(p => p.IsApproved == true && p.PublishDateTime <= DateTime.Now)
+                           .Select(p => new Post
+                           {
+                               Id = p.Id,
+                               Title = p.Title,
+                               Content = p.Content,
+                               ImageLocation = p.ImageLocation,
+                               CreateDateTime = p.CreateDateTime,
+                               PublishDateTime = p.PublishDateTime,
+                               IsApproved = p.IsApproved,
+                               CategoryId = p.CategoryId,
+                               UserProfileId = p.UserProfileId,
+                               UserProfile = p.UserProfile,
+                               Category = p.Category,
+                               Comments = (List<Comment>)p.Comments.OrderByDescending(c => c.CreateDateTime),
+                               PostTags = p.PostTags,
+                               PostReactions = p.PostReactions
+                           }).FirstOrDefault(p => p.Id == subscriberId);
         }
         //
         public void Add(Post post)

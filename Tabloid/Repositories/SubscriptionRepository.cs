@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +21,18 @@ namespace Tabloid.Repositories
         {
             return _context.Subscription
                        .FirstOrDefault(s => s.Id == Id);
+        }
+
+        public List<Post> GetByUserProfileId(int id)
+        {
+            return _context.Subscription
+                             
+                            .Where(s => s.SubscriberUserProfileId == id)
+                            .Where(s => s.EndDateTime == null)
+                            .Include(s => s.ProviderUserProfile)
+                            .ThenInclude(u => u.Posts)
+                            .SelectMany(s => s.ProviderUserProfile.Posts)
+                            .ToList();
         }
 
         public void Add(Subscription sub)

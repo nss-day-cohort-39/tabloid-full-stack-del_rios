@@ -34,8 +34,8 @@ namespace Tabloid.Repositories
 
         public void Delete(int id)
         {
-            var subscription = GetById(id);
-            _context.Subscription.Remove(subscription);
+            var comment = GetById(id);
+            _context.Comment.Remove(comment);
             _context.SaveChanges();
         }
     }

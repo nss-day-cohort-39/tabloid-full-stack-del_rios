@@ -16,9 +16,14 @@ namespace Tabloid.Controllers
     {
 
         private readonly SubscriptionRepository _subscriptionRepository;
+        private readonly UserProfileRepository _userProfileRepository;
+        private readonly PostRepository _postRepostiory;
+
         public SubscriptionController(ApplicationDbContext context)
         {
             _subscriptionRepository = new SubscriptionRepository(context);
+            _userProfileRepository = new UserProfileRepository(context);
+            _postRepostiory = new PostRepository(context);
         }
 
         [HttpDelete("{Id}")]
@@ -33,6 +38,18 @@ namespace Tabloid.Controllers
         {
             _subscriptionRepository.Add(sub);
             return CreatedAtAction("Get", new { id = sub.Id }, sub);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetCurrentUserSubs(int id)
+        {
+          
+            var subscriptions = _subscriptionRepository.GetByUserProfileId(id);
+            if (subscriptions == null)
+            {
+                return NotFound();
+            }
+            return Ok(subscriptions);
         }
     }
 }
