@@ -1,6 +1,6 @@
 
 import React, { useState, useContext, useEffect } from "react";
-import { Card, CardImg, CardBody, CardFooter, Button, ListGroup, ListGroupItem, Form } from "reactstrap";
+import { Card, CardImg, CardBody, Button, ListGroup, ListGroupItem, Form } from "reactstrap";
 import { TagsOnPost } from "../tags/TagsOnPost";
 import { PostContext } from "../../providers/PostProvider";
 
@@ -48,7 +48,7 @@ const UnapprovedPost = ({ post }) => {
           </ListGroup>
         </Form>
       </CardBody>
-      <Button color="info" type="submit" color="success" onClick={updatePost}>Approve</Button>
+      <Button type="submit" color="success" onClick={updatePost}>Approve</Button>
     </Card>
   );
 }

@@ -30,6 +30,8 @@ const PostList = () => {
   return (
     <div className="row justify-content-center">
       <div className="postList">
+        <SearchBar setTerms={setTerms} />
+        <SearchResults searchTerms={searchTerms} />
         <div className="filterContainer">
           <Label for="content">Filter by Category</Label>
           <select required onChange={handleCategoryChange}>
@@ -41,8 +43,6 @@ const PostList = () => {
             }
           </select>
         </div>
-        <SearchBar setTerms={setTerms} />
-        <SearchResults searchTerms={searchTerms} />
         <div className="cards-column">
           {
             (posts.length > 0)

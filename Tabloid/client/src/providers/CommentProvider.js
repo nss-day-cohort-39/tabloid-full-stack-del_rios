@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserProfileContext } from "./UserProfileProvider";
 
 export const CommentContext = React.createContext();

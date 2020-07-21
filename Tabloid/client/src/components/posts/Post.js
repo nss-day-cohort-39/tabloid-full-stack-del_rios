@@ -27,7 +27,7 @@ const Post = ({ post }) => {
   };
 
 
-  if (userProfileType == 1) {
+  if (userProfileType === 1) {
     return (
       <Card className="m-4">
         <p className="text-left px-2">Posted by: <Link to={`/user/${post.userProfileId}`}>{post.userProfile.displayName}</Link></p>
@@ -39,7 +39,7 @@ const Post = ({ post }) => {
         <CardFooter>
           Post Category: {post.category.name}
         </CardFooter>
-        {(post.isApproved == true) ?
+        {(post.isApproved === true) ?
           <Button onClick={updatePost} color="danger">Unapprove this Post</Button>
           : <Button onClick={updatePost} color="success">Approve this Post</Button>
         }   </Card>

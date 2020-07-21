@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Card, CardBody } from "reactstrap";
 import "../../css/Tag.css"
 import { PostContext } from "../../providers/PostProvider";

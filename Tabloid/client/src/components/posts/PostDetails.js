@@ -12,7 +12,7 @@ import "../../css/Reaction.css"
 
 const PostDetails = () => {
   const [post, setPost] = useState();
-  const { getPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost } = useContext(PostContext);
+  const { getPost, deletePostById, editPost } = useContext(PostContext);
   const { getAllCategories, categories } = useContext(CategoryContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;

@@ -8,12 +8,9 @@ import { PostContext } from "../../providers/PostProvider";
 export const AddTagForm = () => {
 
     const { tags, getAllTags } = useContext(TagContext)
+    const { getPost } = useContext(PostContext);
     const history = useHistory();
     const { id } = useParams();
-
-    const { getPost } = useContext(PostContext);
-    const { id } = useParams();
-
     const [post, setPost] = useState();
 
     useEffect(() => {

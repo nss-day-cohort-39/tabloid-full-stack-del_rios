@@ -36,7 +36,7 @@ export const Reactions = ({ reaction }) => {
     }
 
     return (
-        <div><img src={"" + reaction.imageLocation} onClick={
+        <div><img src={"" + reaction.imageLocation} alt={reaction.name} onClick={
             evt => {
                 evt.preventDefault()
                 {
