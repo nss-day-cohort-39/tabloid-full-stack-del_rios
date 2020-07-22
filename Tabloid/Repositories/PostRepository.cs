@@ -110,7 +110,6 @@ namespace Tabloid.Repositories
                            }).FirstOrDefault(p => p.Id == id);
         }
 
-<<<<<<< HEAD
         public Post GetApprovedPostBySubscriberId(int subscriberId)
         {
             return _context.Post
@@ -141,7 +140,7 @@ namespace Tabloid.Repositories
                                PostTags = p.PostTags,
                                PostReactions = p.PostReactions
                            }).FirstOrDefault(p => p.Id == subscriberId);
-=======
+        }
         public List<Post> GetAllPostsByCategory(int criterion, bool approved)
         {
             return _context.Post
@@ -151,7 +150,6 @@ namespace Tabloid.Repositories
                             .ThenInclude(pt => pt.Tag)
                             .Where(p => p.CategoryId == criterion && p.PublishDateTime <= DateTime.Now && p.IsApproved == approved)
                             .OrderByDescending(p => p.PublishDateTime).ToList();
->>>>>>> master
         }
         //
         public void Add(Post post)

@@ -62,8 +62,10 @@ const PostDetails = () => {
   }, []);
 
   useEffect(() => {
-    debugger
-    getAllSubRelationships(userProfileId);
+
+    getAllSubRelationships(userProfileId).then(() => {
+      console.log(subRelationships)
+    });
   }, []);
 
   useEffect(() => {

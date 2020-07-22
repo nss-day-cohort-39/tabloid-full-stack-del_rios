@@ -31,7 +31,9 @@ export const SubscriptionProvider = (props) => {
                     Authorization: `Bearer ${token}`
                 }
             }).then(resp => resp.json())
-                .then(setSubRelationships));
+                .then((res) => {
+                    setSubRelationships(res)
+                }));
 
     const addSub = (sub) =>
         getToken().then((token) =>
