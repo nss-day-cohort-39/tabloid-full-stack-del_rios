@@ -13,9 +13,11 @@ export const UserProfileDetails = () => {
     const toggleToast = () => setShowToast(!showToast);
     const toggleInitializeToast = () => setInitializeToast(!showToast);
     let userTypeId = 0;
+    let curretUserId = 0;
 
     if (isLoggedIn === true) {
         userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
+        curretUserId = JSON.parse(sessionStorage.getItem("userProfile")).id;
     }
 
     // Use this hook to allow us to programatically redirect users
@@ -37,10 +39,11 @@ export const UserProfileDetails = () => {
     const deactivateUser = () => {
         toggleInitializeToast();
         toggleToast();
-        const parsedId = +id;
+        const parsedId = +curretUserId;
         userProfile.isActive = false;
         editUserProfile(parsedId, userProfile).then(() => {
-            getUserProfileById(parsedId).then((resp) => {
+            getUserProfileById(userProfile.id).then((resp) => {
+                debugger
                 if (resp.id === parsedId) {
                     logout();
                 } else {
@@ -73,10 +76,11 @@ export const UserProfileDetails = () => {
     const demoteUser = () => {
         toggleInitializeToast();
         toggleToast();
-        const parsedId = +id;
+        const parsedId = +curretUserId;
         userProfile.userTypeId = 2;
         editUserProfile(parsedId, userProfile).then(() => {
-            getUserProfileById(parsedId).then((resp) => {
+            getUserProfileById(userProfile.id).then((resp) => {
+                debugger
                 if (resp.id === parsedId) {
                     logout();
                 } else {

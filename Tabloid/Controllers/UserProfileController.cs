@@ -66,11 +66,6 @@ namespace Tabloid.Controllers
             var currentUserProfile = GetCurrentUserProfile();
             if (currentUserProfile.UserTypeId == 1)
             {
-                if (id != userProfile.Id)
-                {
-                return BadRequest();
-                }
-
                 _userProfileRepository.Update(userProfile, currentUserProfile);
                 return NoContent();
             }
