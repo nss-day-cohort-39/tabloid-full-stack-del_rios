@@ -14,6 +14,7 @@ import { UserProfileList } from "./userProfile/UserProfileList";
 import { AddTagForm } from "./tags/AddTagForm";
 import { UserProfileDetails } from "./userProfile/UserProfileDetails";
 import { UserProfileDeactivatedList } from "./userProfile/UserProfileDeactivatedList";
+import {AddReactionForm} from "./posts/AddReactionForm"
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -50,7 +51,7 @@ export default function ApplicationViews() {
         </Route>
 
         <Route path="/categories">
-          {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
+          {isLoggedIn && userTypeId === 1 ? <CategoryList /> : <Redirect to="/" />}
         </Route>
 
         <Route path="/userprofiles" exact>
@@ -62,7 +63,7 @@ export default function ApplicationViews() {
         </Route>
 
         <Route path="/tags">
-          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
+          {isLoggedIn && userTypeId === 1 ? <TagList /> : <Redirect to="/" />}
         </Route>
 
         <Route path="/addTagForm/post/:id">
@@ -72,8 +73,13 @@ export default function ApplicationViews() {
         <Route path="/userprofiles/:id">
           {isLoggedIn && userTypeId === 1 ? <UserProfileDetails /> : <Redirect to="/" />}
         </Route>
-
         
+        
+        <Route path="/reactions">
+          {isLoggedIn && userTypeId === 1 ? <AddReactionForm /> : <Redirect to="/" />}
+        </Route>
+
+
         <Route path="/unapproved">
           {isLoggedIn ? <UnapprovedPostList /> : <Redirect to="/login" />}
         </Route>

@@ -13,11 +13,9 @@ export const UserProfileDetails = () => {
     const toggleToast = () => setShowToast(!showToast);
     const toggleInitializeToast = () => setInitializeToast(!showToast);
     let userTypeId = 0;
-    let currentUserId = 0;
 
     if (isLoggedIn === true) {
         userTypeId = JSON.parse(sessionStorage.getItem("userProfile")).userTypeId;
-        currentUserId = JSON.parse(sessionStorage.getItem("userProfile")).id;
     }
 
     // Use this hook to allow us to programatically redirect users
@@ -43,7 +41,7 @@ export const UserProfileDetails = () => {
         userProfile.isActive = false;
         editUserProfile(parsedId, userProfile).then(() => {
             getUserProfileById(parsedId).then((resp) => {
-                if (resp.title === "Unauthorized") {
+                if (resp.id === parsedId) {
                     logout();
                 } else {
                     setUserProfile(resp);
@@ -79,7 +77,7 @@ export const UserProfileDetails = () => {
         userProfile.userTypeId = 2;
         editUserProfile(parsedId, userProfile).then(() => {
             getUserProfileById(parsedId).then((resp) => {
-                if (resp.title === "Unauthorized") {
+                if (resp.id === parsedId) {
                     logout();
                 } else {
                     setUserProfile(resp);

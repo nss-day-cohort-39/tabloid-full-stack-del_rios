@@ -21,7 +21,7 @@ export const PostProvider = (props) => {
       }).then((res) => res.json())
         .then(setPosts));
 
-        const getAllUnApprovedPosts = () =>
+  const getAllUnApprovedPosts = () =>
     getToken().then((token) =>
       fetch("/api/post/unapproved", {
         method: "GET",
@@ -46,6 +46,16 @@ export const PostProvider = (props) => {
         }
         throw new Error("Unauthorized");
       }));
+
+  const filterPostsByCategory = (criterion, approved) =>
+    getToken().then((token) =>
+      fetch(apiUrl + `/filterpostsbycategory?q=${criterion}&b=${approved}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((res) => res.json())
+        .then(setPosts));
 
   const addTagtoPost = (postTag) =>
     getToken().then((token) =>
@@ -176,8 +186,15 @@ export const PostProvider = (props) => {
     );
   };
 
+
+  const searchPosts = (search) => {
+    return fetch(`api/post/search?q=${search}`)
+      .then(res => res.json())
+      .then(setPosts)
+  };
+
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, addPost, addTagtoPost, removeTagFromPost, getPost, getUserPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost, getAllUnApprovedPosts }}>
+    <PostContext.Provider value={{ searchPosts, posts, getAllPosts, addPost, addTagtoPost, removeTagFromPost, getPost, getUserPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost, getAllUnApprovedPosts, filterPostsByCategory }}>
       {props.children}
     </PostContext.Provider>
   );

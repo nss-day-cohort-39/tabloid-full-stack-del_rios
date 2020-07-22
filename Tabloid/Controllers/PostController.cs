@@ -49,6 +49,26 @@ namespace Tabloid.Controllers
             return Ok(_postRepository.GetByUserProfileId(id));
         }
 
+        [HttpGet("filterpostsbycategory")]
+        public IActionResult FilterPostsByCategory(int q, bool b)
+        {
+            if (q == 0)
+            {
+                if (b)
+                {
+                    return Ok(_postRepository.GetAll());
+                }
+                else
+                {
+                    return Ok(_postRepository.GetAllUnapprovedPost());
+                }
+            }
+            else
+            {
+                return Ok(_postRepository.GetAllPostsByCategory(q, b));
+            }
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -63,7 +83,7 @@ namespace Tabloid.Controllers
             {
                 return Ok(aprovedPost);
             }
-            else if (post != null && post.UserProfileId == currentUserProfile.Id)
+            else if (post != null && (post.UserProfileId == currentUserProfile.Id || currentUserProfile.UserTypeId == 1))
             {
                 return Ok(post);
             }
@@ -177,8 +197,13 @@ namespace Tabloid.Controllers
         }
 
 
+        [HttpGet("search")]
+        public IActionResult Search(string q, bool sortDesc)
+        {
+            return Ok(_postRepository.Search(q, sortDesc));
+        }
 
-            private UserProfile GetCurrentUserProfile()
+        private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
