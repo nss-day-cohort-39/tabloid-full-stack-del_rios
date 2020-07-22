@@ -48,5 +48,12 @@ namespace Tabloid.Repositories
             _context.SaveChanges();
         }
 
+        public List<Subscription> getSubscriptionsByUser(int id)
+        {
+            return _context.Subscription
+                            .Where(s => s.SubscriberUserProfileId == id)
+                            .Where(s => s.EndDateTime == null)
+                            .ToList();
+        }
     }
 }

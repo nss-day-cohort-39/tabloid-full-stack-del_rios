@@ -11,6 +11,7 @@ export const SubscriptionProvider = (props) => {
     const { getToken } = useContext(UserProfileContext);
     const [subs, setSubs] = useState([]);
     const [subPosts, setSubPosts] = useState([]);
+    const [subRelationships, setSubRelationships] = useState([]);
 
     const getAllSubPosts = (id) =>
         getToken().then((token) =>
@@ -21,6 +22,16 @@ export const SubscriptionProvider = (props) => {
                 }
             }).then(resp => resp.json())
                 .then(setSubPosts));
+
+    const getAllSubRelationships = (id) =>
+        getToken().then((token) =>
+            fetch(`/api/subscription/usersubs/${id}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(resp => resp.json())
+                .then(setSubRelationships));
 
     const addSub = (sub) =>
         getToken().then((token) =>
@@ -67,7 +78,7 @@ export const SubscriptionProvider = (props) => {
     }
 
     return (
-        <SubscriptionContext.Provider value={{ subs, setSubs, subPosts, setSubPosts, getAllSubPosts, addSub, deleteSub, getSubById }}>
+        <SubscriptionContext.Provider value={{ subs, setSubs, subPosts, setSubPosts, getAllSubPosts, addSub, deleteSub, getSubById, getAllSubRelationships, subRelationships, setSubRelationships }}>
             {props.children}
         </SubscriptionContext.Provider>
     );

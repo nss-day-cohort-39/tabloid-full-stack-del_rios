@@ -44,6 +44,8 @@ namespace Tabloid.Models
 
         public List<Post> Posts { get; set; }
 
+        public List<Subscription> Subscriptions { get; set; }
+
         public string FullName
         {
             get

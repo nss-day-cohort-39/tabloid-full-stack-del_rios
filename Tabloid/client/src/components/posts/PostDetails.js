@@ -17,14 +17,14 @@ const PostDetails = () => {
   const { getPost, deletePostById, editPost, addReactiontoPost, removeReactionFromPost } = useContext(PostContext);
   const { getAllCategories, categories } = useContext(CategoryContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
-  const userSubs = JSON.parse(sessionStorage.getItem("userProfile")).subscriptions;
   const { id } = useParams();
   const [showToast, setShowToast] = useState(false);
   const [displayComment, setDisplayComment] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [formState, setformState] = useState({});
   const { getAllReactions, reactions } = useContext(ReactionContext)
-  const { addSub } = useContext(SubscriptionContext)
+  const { addSub, getAllSubRelationships, subRelationships } = useContext(SubscriptionContext)
+
 
   const toggleModal = () => setShowModal(!showModal);
   const toggleToast = () => setShowToast(!showToast);
@@ -58,11 +58,15 @@ const PostDetails = () => {
   }, []);
 
   useEffect(() => {
-    getAllReactions();
+    debugger
+    getAllSubRelationships(userProfileId);
   }, []);
+
   useEffect(() => {
-    console.log(userSubs);
+    getAllCategories();
   }, []);
+
+
 
   useEffect(() => {
     setformState(post);
@@ -71,6 +75,7 @@ const PostDetails = () => {
   if (!post) {
     return null;
   }
+
 
 
   const deletePost = (e) => {
@@ -88,7 +93,7 @@ const PostDetails = () => {
       providerUserProfileId: post.userProfileId,
       BeginDateTime: new Date()
     }
-    debugger
+
     addSub(subscription)
   }
 

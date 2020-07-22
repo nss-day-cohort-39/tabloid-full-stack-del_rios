@@ -57,15 +57,27 @@ namespace Tabloid.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCurrentUserSubs(int id)
+        public IActionResult GetCurrentUserPosts(int id)
         {
           
-            var subscriptions = _subscriptionRepository.GetByUserProfileId(id);
-            if (subscriptions == null)
+            var posts = _subscriptionRepository.GetByUserProfileId(id);
+            if (posts == null)
             {
                 return NotFound();
             }
-            return Ok(subscriptions);
+            return Ok(posts);
         }
+
+    [HttpGet("usersubs/{id}")]
+    public IActionResult GetCurrentUserSubs(int id)
+    {
+
+        var subscriptions = _subscriptionRepository.getSubscriptionsByUser(id);
+        if (subscriptions == null)
+        {
+            return NotFound();
+        }
+        return Ok(subscriptions);
+    }
     }
 }

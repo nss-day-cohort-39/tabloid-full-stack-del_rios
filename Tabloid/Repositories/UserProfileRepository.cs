@@ -27,6 +27,7 @@ namespace Tabloid.Repositories
         {
             return _context.UserProfile
                        .Include(up => up.UserType)
+                       .Include(up => up.Subscriptions)
                        .FirstOrDefault(up => up.Id == id);
         }
 
